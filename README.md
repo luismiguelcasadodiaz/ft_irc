@@ -11,3 +11,7 @@ You can see them all in the Big IANA Port List16 or, if you’re on a Unix box, 
 
 ### 3.2 byte order
 Basically, you’ll want to convert the numbers to Network Byte Order before they go out on the wire, and convert them to Host Byte Order as they come in off the wire.
+
+
+### 5.2 Socket()
+So the most correct thing to do is to use AF_INET in your struct sockaddr_in and PF_INET in your call to socket().)
