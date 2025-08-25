@@ -1,0 +1,44 @@
+std::string "Comandos de Conexión y Sesión
+std::string token_pass = "PASS" ;
+std::string token_nick = "NICK" ;
+std::string token_user = "USER" ;
+std::string token_oper = "OPER" ;
+std::string token_quit = "QUIT" ;
+std::string token_pong = "PONG" ;
+std::string token_ping = "PING" ;
+std::string "Comandos de Canales
+std::string token_join = "JOIN" ;
+std::string token_part = "PART" ;
+std::string token_mode = "MODE" ;
+std::string token_topic = "TOPIC" ;
+std::string token_names = "NAMES" ;
+std::string token_list = "LIST" ;
+std::string token_invite = "INVITE" ;
+std::string token_kick = "KICK" ;
+std::string "Comandos de Mensajes
+std::string token_privmsg = "PRIVMSG" ;
+std::string token_notice = "NOTICE" ;
+std::string token_away = "AWAY" ;
+std::string "Comandos de Consulta
+std::string token_who = "WHO" ;
+std::string token_whois = "WHOIS" ;
+std::string token_whowas = "WHOWAS" ;
+std::string token_lusers = "LUSERS" ;
+std::string token_version = "VERSION" ;
+std::string token_stats = "STATS" ;
+std::string token_links = "LINKS" ;
+std::string token_time = "TIME" ;
+std::string token_trace = "TRACE" ;
+std::string token_admin = "ADMIN" ;
+std::string token_info = "INFO" ;
+std::string token_servlist = "SERVLIST" ;
+std::string token_squery = "SQUERY" ;
+std::string token_motd = "MOTD" ;
+std::string "Comandos de Operador (Requieren privilegios de operador)
+std::string token_kill = "KILL" ;
+std::string token_error = "ERROR" ;
+std::string token_rehash = "REHASH" ;
+std::string token_restart = "RESTART" ;
+std::string token_squirt = "SQUIRT" ;
+std::string token_connect = "CONNECT" ;
+std::string token_die = "DIE" ;

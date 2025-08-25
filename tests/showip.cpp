@@ -60,13 +60,13 @@ int main(int argc, char* argv[]) {
     for (struct addrinfo* p = res; p != NULL; p = p->ai_next) {
         std::string ip_version;
 	struct protoent* protocol;
-	int s;
+	int sockfd;
         if (p->ai_family == AF_INET) {
             ip_version = "IPv4";
         } else {
             ip_version = "IPv6";
         }
-	if ((s = socket(p->ai_family, p->ai_socktype, p->ai_protocol) == -1 )) {
+	if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol) == -1 )) {
 	    std::cerr << strerror(errno) << std::endl ;
 	    return 3;
 	};
@@ -81,9 +81,14 @@ int main(int argc, char* argv[]) {
 	std::cout << " Socket_family : " << p->ai_family ;
 	std::cout << " Socket_type : " << p->ai_socktype ;
         std::cout << " protocol : " << protocol->p_name;
-	std::cout << " socket_number : " << s ;
+	std::cout << " socket_number : " << sockfd ;
 	std::cout << " address' length : " << p->ai_addrlen << std::endl ;
     }
+
+	if ((bindresult = bind(sockfd, (struct sockaddr *)&my_addr, sizeof my_addr) == -1 )) {
+	    std::cerr << strerror(errno) << std::endl ;
+	    return 4 ;
+	};
 
     freeaddrinfo(res); // free the linked list
 
