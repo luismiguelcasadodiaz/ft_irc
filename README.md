@@ -80,3 +80,6 @@ std::string token_quit = "QUIT" ;
 std::string token_pong = "PONG" ;
 std::string token_ping = "PING" ;
 ```
+=======
+### 5.2 Socket()
+So the most correct thing to do is to use AF_INET in your struct sockaddr_in and PF_INET in your call to socket().)
