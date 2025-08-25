@@ -80,6 +80,122 @@ std::string token_quit = "QUIT" ;
 std::string token_pong = "PONG" ;
 std::string token_ping = "PING" ;
 ```
-=======
 ### 5.2 Socket()
 So the most correct thing to do is to use AF_INET in your struct sockaddr_in and PF_INET in your call to socket().)
+
+
+
+# rfc2812
+
+### Replies
+
+
+|messages | substitutions |
+|---------|---------------|
+|31       | 0|
+|54       | 1|
+|31       | 2|
+| 9       | 3|
+| 7       | 4|
+| 1       | 6|
+| 4       | 7|
+|137      |messages |
+
+#### Different substitution tags for the 54 messages
+<admin info>
+<channel>
+<channel name>
+<command>
+<config file>
+<date>
+<integer>
+<mask>
+<name>
+<nick>
+<nick/channel>
+<nickname>
+<server>
+<server name>
+<service name>
+<servicename>
+<stats letter>
+<string>
+<text>
+<user>
+<user mode string>
+
+
+
+#### Different duples of substitution tags for the 31 messages
+
+```sh
+<channel><banmask>
+<channel><char>
+<channel><exceptionmask>
+<channel><invitemask>
+<channel><nick>
+<channel><nickname>
+<channel><topic>
+<char><channel>
+<class><client IP address in dot form>
+<class><count>
+<class><nick>
+<class><server>
+<file op><file>
+<hostmask><name>
+<integer><integer>
+<logfile><debug level>
+<mask><type>
+<newtype><client name>
+<nick><away message>
+<nick><channel>
+<nick><integer>
+<nick><nick>
+<reply><reply>
+<server name><port number>
+<servername><ver>
+<server name><version & debug level>
+<server><string showing server's local time>
+<user><channel>
+```
+
+
+#### Different truples of substitution tags for the 9 messages
+```sh
+<channel><mode><mode params>
+<channel><nick><nick>
+<channel><# visible><topic>
+<integer><integer><integer>
+<nick><server><server info>
+<nick><user><host>
+<target><error code><abort message>
+<username><ttyline><hostname>
+```
+
+#### Different Cuadruples of substitution tags for the 7 messages
+
+```sh
+<class><name><type><active type>
+<command><count><byte count><remote count>
+<mask><server><hopcount><server info>
+<nick><user><host><real name>
+<servername><version><available user modes><available channel modes>
+<version><debuglevel><server><comments>
+```
+
+#### Different Sextuples of substitution tags for the 1 message1
+```sh
+<name><server><mask><type><hopcount><info>
+```
+
+
+#### Different Septuples of substitution tags for the 4 messages
+```sh
+<channel><user><host><server><nick><hopcount><real name>
+<class><int><int><server><nick!user|*!*><host|server><protocol version>
+<linkname><sendq><sent messages><sent Kbytes><received messages><received Kbytes><time open>
+<version & debug level><destination><next server><protocol version><link uptime in seconds><backstream sendq><upstream sendq>
+```sh
+
+
+

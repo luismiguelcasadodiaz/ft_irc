@@ -1,0 +1,4 @@
+<channel><user><host><server><nick><hopcount><real name>
+<class><int><int><server><nick!user|*!*><host|server><protocol version>
+<linkname><sendq><sent messages><sent Kbytes><received messages><received Kbytes><time open>
+<version & debug level><destination><next server><protocol version><link uptime in seconds><backstream sendq><upstream sendq>

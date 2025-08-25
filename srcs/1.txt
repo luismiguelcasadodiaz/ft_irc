@@ -1,0 +1,54 @@
+<channel>
+<channel>
+<mask>
+<channel>
+<channel name>
+<channel>
+<channel>
+<nick>
+<channel>
+<channel>
+<command>
+<nick>
+<server>
+<channel>
+<user>
+<command>
+<channel name>
+<nickname>
+<server name>
+<service name>
+<channel>
+<mask>
+<channel name>
+<nick/channel>
+<command>
+<nickname>
+<mask>
+<admin info>
+<admin info>
+<admin info>
+<server>
+<date>
+<channel>
+<channel>
+<channel>
+<mask>
+<channel>
+<stats letter>
+<name>
+<nick>
+<nick>
+<string>
+<integer>
+<integer>
+<integer>
+<text>
+<server>
+<channel>
+<config file>
+<user>
+<command>
+<user mode string>
+<nick>
+<servicename>

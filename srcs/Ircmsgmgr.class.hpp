@@ -3,13 +3,8 @@
 
 #include <string>
 #include <map>
-
-// Estructura para albergar los datos de cada mensaje de IRC
-struct IrcMessage {
-    std::string nombre_error;
-    std::string texto_usuario;
-    std::string explicacion;
-};
+#include <stdexcept>
+#include <sstream>
 
 // Clase para gestionar los mensajes de IRC
 class IrcMessageManager {
@@ -18,17 +13,31 @@ public:
     IrcMessageManager();
 
     // Método para devolver un puntero constante a un mensaje por su código de error
-    const IrcMessage* getMessageByCode(int code) const;
+    const std::string* getMessageByCode(int code) const;
 
     // Método para mostrar la información de un mensaje por consola
     void printMessage(int code) const;
 
+    // Nuevo método público para obtener un mensaje con sustitución de etiquetas
+    std::string getFormattedMessage(
+        int messageNumber,
+        const std::map<std::string, std::string>& tags
+    ) const;
+
 private:
     // Estructura de datos que almacena todos los mensajes de forma privada
-    std::map<int, IrcMessage> messages_;
+    std::map<int, std::string> messages_;
 
     // Método privado para la inicialización del mapa, llamado por el constructor
     void initializeMessages();
+
+    // Nuevo método privado para realizar la sustitución de una sola etiqueta
+    std::string _substituteTag(
+        const std::string& text,
+        const std::string& substitutionTag,
+        const std::string& substitutionText
+    ) const;
 };
 
 #endif // IRCMESSAGEMANAGER_HPP
+

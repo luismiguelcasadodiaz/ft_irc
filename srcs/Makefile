@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/01/18 11:45:14 by luicasad         ###   ########.fr        #
+#    Updated: 2025/08/25 20:56:11 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ CFLGS			= $(DBGFL) $(WRNFL) -c
 LFLGS 			= -fsanitize=address
 
 HEADERS		=	Ircmsgmgr.class.hpp \
+				IrcNumerics.hpp
 
 SRCS_TARGET	= 	main.cpp \
 				Ircmsgmgr.class.cpp \
