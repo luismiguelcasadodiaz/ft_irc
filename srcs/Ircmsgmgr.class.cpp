@@ -6,6 +6,24 @@
 IrcMessageManager::IrcMessageManager() {
     initializeMessages();
 }
+// Constructor por copia
+IrcMessageManager::IrcMessageManager( IrcMessageManager const & other) 
+    : messages_(other.messages_){
+    
+}
+
+// Operador de assignacion
+IrcMessageManager & IrcMessageManager::operator=(IrcMessageManager const & other) {
+    if (this != &other) {
+        this->messages_ = other.messages_;
+    }
+	return *this ;
+}
+// Destructor
+IrcMessageManager::~IrcMessageManager() {
+    
+}
+
 
 // Método para devolver un mensaje por su código
 const std::string* IrcMessageManager::getMessageByCode(int code) const {

@@ -10,7 +10,13 @@
 class IrcMessageManager {
 public:
     // Constructor que inicializa el mapa con todos los mensajes
-    IrcMessageManager();
+    IrcMessageManager( void );
+    // Constructor por copia
+    IrcMessageManager( IrcMessageManager const & other) ;
+    // Operador de assignacion
+    IrcMessageManager & operator=(IrcMessageManager const & other);
+    // Destructor
+    ~IrcMessageManager( void ) ;
 
     // Método para devolver un puntero constante a un mensaje por su código de error
     const std::string* getMessageByCode(int code) const;

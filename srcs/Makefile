@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/08/25 20:56:11 by luicasad         ###   ########.fr        #
+#    Updated: 2025/08/26 21:08:08 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,11 +48,15 @@ CFLGS			= $(DBGFL) $(WRNFL) -c
 #HEADS			= -I$(INCDIR)
 LFLGS 			= -fsanitize=address
 
-HEADERS		=	Ircmsgmgr.class.hpp \
-				IrcNumerics.hpp
+HEADERS		=	NickName.class.hpp \
+				HostName.class.hpp \
+				IrcNumerics.hpp \
+				Ircmsgmgr.class.hpp \
 
-SRCS_TARGET	= 	main.cpp \
+SRCS_TARGET	= 	NickName.class.cpp \
+				HostName.class.cpp \
 				Ircmsgmgr.class.cpp \
+				main.cpp \
 
 
 FILE_TARGET = $(addprefix $(SRCDIR_TARGET), $(SRCS_TARGET))
