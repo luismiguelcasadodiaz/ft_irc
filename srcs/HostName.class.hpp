@@ -6,16 +6,20 @@
 #include <string>
 #include <stdexcept>
 
-class HostName {
-private:
-    std::string value;
+// Clase de excepción personalizada
+class HostNameException : public std::exception {
+    public:
+        HostNameException(const char* msg) : _msg(msg) {}
+        virtual ~HostNameException() throw() {}
+        virtual const char* what() const throw() {
+            return _msg.c_str();
+        }
+    private:
+        std::string _msg;
+    };
 
-    // Validation helper functions based on BNF
-    bool isShortname(const std::string& s) const;
-    bool isHostname(const std::string& s) const;
-    bool isIp4addr(const std::string& s) const;
-    bool isIp6addr(const std::string& s) const;
-    bool validate(const std::string& s) const;
+class HostName {
+
 
 public:
     // Canonical Class Form
@@ -37,6 +41,15 @@ public:
     bool operator>(const HostName& other) const;
     bool operator<=(const HostName& other) const;
     bool operator>=(const HostName& other) const;
+private:
+    std::string _host;
+
+    // Validation helper functions based on BNF
+    bool isShortname(const std::string& s) const;
+    bool isHostname(const std::string& s) const;
+    bool isIp4addr(const std::string& s) const;
+    bool isIp6addr(const std::string& s) const;
+    bool validate(const std::string& s) const;
 };
 
 #endif

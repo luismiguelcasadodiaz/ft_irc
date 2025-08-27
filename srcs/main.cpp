@@ -1,6 +1,8 @@
 #include "NickName.class.hpp"
 #include "HostName.class.hpp"
-#include "Ircmsgmgr.class.hpp"
+#include "IrcMM.class.hpp"
+#include "UserName.class.hpp"
+#include <cstdlib>
 #include "IrcNumerics.hpp"
 #include <iostream>
 #include <map>
@@ -88,7 +90,7 @@ try {
     } catch (const std::invalid_argument& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
-*/
+
     try {
         // Valid hostnames
         HostName host1("www.example.com");
@@ -124,6 +126,67 @@ try {
     } catch (const std::invalid_argument& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+
+
+
+
+    // Casos de prueba
+    std::string validNames[] = {"user-1", "user_2", "u.name", "john", "jane-doe"};
+    std::string invalidNames[] = {"root", "long_user_name", "1invalid", "user#1", ""};
+
+    // Probando nombres válidos
+    std::cout << "--- Testing valid names ---" << std::endl;
+    for (int i = 0; i < 5; ++i) {
+        try {
+            UserName* u = UserName::create(validNames[i]);
+            std::cout << "Success: " << u->ge() << std::endl;
+            delete u;
+        } catch (const UserNameException& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+        }
+    }
+
+    std::cout << "\n--- Testing invalid names ---" << std::endl;
+    // Probando nombres inválidos
+    for (int i = 0; i < 5; ++i) {
+        try {
+            UserName* u = UserName::create(invalidNames[i]);
+            std::cout << "This should not be printed: " << u->get() << std::endl;
+            delete u;
+        } catch (const UserNameException& e) {
+            std::cerr << "Error creating '" << invalidNames[i] << "': " << e.what() << std::endl;
+        }
+    }
+*/
+
+try
+{
+    IrcMM manager;
+    UserName user = UserName("luicasad");
+    HostName host = HostName("student.42barcelona.com");
+    NickName nick = NickName("luismi196");
+    std::string real_name = "Luis Miguel Casado Díaz" ;
+    std::cout << RPL_WELCOME << "\t" << manager.Fmt_RPL_WELCOME(nick, user, host) << std::endl;
+    std::cout << RPL_ISON << "\t" << manager.Fmt_RPL_ISON(nick) << std::endl;
+    std::cout << RPL_WHOISUSER << "\t" << manager.Fmt_RPL_WHOISUSER (nick, user, host, real_name ) << std::endl ;
+    std::cout << RPL_WHOISOPERATOR << "\t" << manager.Fmt_RPL_WHOISOPERATOR(nick) << std::endl;
+    std::cout << RPL_WHOWASUSER << "\t" << manager.Fmt_RPL_WHOWASUSER (nick, user, host, real_name ) << std::endl ;
+    std::cout << RPL_ENDOFWHOIS << "\t" << manager.Fmt_RPL_ENDOFWHOIS(nick) << std::endl;    
+    std::cout << RPL_ENDOFWHOWAS << "\t" << manager.Fmt_RPL_ENDOFWHOWAS(nick) << std::endl;     
+    std::cout << ERR_NOSUCHNICK << "\t" << manager.Fmt_ERR_NOSUCHNICK(nick) << std::endl;     
+    std::cout << ERR_WASNOSUCHNICK << "\t" << manager.Fmt_ERR_WASNOSUCHNICK(nick) << std::endl;         
+    std::cout << ERR_ERRONEUSNICKNAME << "\t" << manager.Fmt_ERR_ERRONEUSNICKNAME(nick) << std::endl;
+    std::cout << ERR_NICKNAMEINUSE << "\t" << manager.Fmt_ERR_NICKNAMEINUSE(nick) << std::endl;
+    std::cout << ERR_NICKCOLLISION << "\t" << manager.Fmt_ERR_NICKCOLLISION(nick, user, host) << std::endl;
+    std::cout << ERR_UNAVAILRESOURCE << "\t" << manager.Fmt_ERR_UNAVAILRESOURCE(nick) << std::endl;         
+
+}
+catch(const std::exception& e)
+{
+    std::cerr << e.what() << '\n';
+}
+
+
     return 0;
 }
 

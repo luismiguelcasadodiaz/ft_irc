@@ -1,32 +1,155 @@
-#include "Ircmsgmgr.class.hpp"
+#include "IrcMM.class.hpp"
 #include "IrcNumerics.hpp"
 #include <iostream>
 
 // Constructor: llama al método de inicialización
-IrcMessageManager::IrcMessageManager() {
+IrcMM::IrcMM() {
     initializeMessages();
 }
 // Constructor por copia
-IrcMessageManager::IrcMessageManager( IrcMessageManager const & other) 
+IrcMM::IrcMM( IrcMM const & other) 
     : messages_(other.messages_){
     
 }
 
 // Operador de assignacion
-IrcMessageManager & IrcMessageManager::operator=(IrcMessageManager const & other) {
+IrcMM & IrcMM::operator=(IrcMM const & other) {
     if (this != &other) {
         this->messages_ = other.messages_;
     }
 	return *this ;
 }
 // Destructor
-IrcMessageManager::~IrcMessageManager() {
+IrcMM::~IrcMM() {
     
+}
+
+// 001 RPL_WELCOME 
+std::string IrcMM::Fmt_RPL_WELCOME (NickName & nick, UserName & user, HostName & host ) 
+{
+    std::map<std::string, std::string>  tags ;
+    //tags[""] = ;
+    tags["<nick>"] = nick.get();
+    tags["<user>"] = user.get();
+    tags["<host>"] = host.get();
+    return this->getFormattedMessage(RPL_WELCOME, tags) ;
+
+
+}
+
+// 303 RPL_ISON,        ":*1<nick> *( \" \" <nick> )     ));
+std::string IrcMM::Fmt_RPL_ISON (NickName & nick ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_ISON, tags) ;
+}
+
+// 311 RPL_WHOISUSER
+std::string IrcMM::Fmt_RPL_WHOISUSER (NickName & nick, UserName & user, HostName & host, std::string & real_name ) 
+{
+    std::map<std::string, std::string>  tags ;
+    //tags[""] = ;
+    tags["<nick>"] = nick.get();
+    tags["<user>"] = user.get();
+    tags["<host>"] = host.get();
+    tags["<real name>"] = real_name;
+
+    return this->getFormattedMessage(RPL_WHOISUSER, tags) ;
+}
+
+// 313 RPL_WHOISOPERATOR,        "<nick> :is an IRC operator     ));
+std::string IrcMM::Fmt_RPL_WHOISOPERATOR (NickName & nick )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_WHOISOPERATOR, tags) ;
+}
+
+// 314 RPL_WHOWASUSER 
+std::string IrcMM::Fmt_RPL_WHOWASUSER (NickName & nick, UserName & user, HostName & host, std::string & real_name ) 
+{
+    std::map<std::string, std::string>  tags ;
+    //tags[""] = ;
+    tags["<nick>"] = nick.get();
+    tags["<user>"] = user.get();
+    tags["<host>"] = host.get();
+    tags["<real name>"] = real_name;
+
+    return this->getFormattedMessage(RPL_WHOWASUSER, tags) ;
+}
+
+// 318 RPL_ENDOFWHOIS,        "<nick> :End of WHOIS list     ));
+std::string IrcMM::Fmt_RPL_ENDOFWHOIS (NickName & nick )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_ENDOFWHOIS, tags) ;
+}
+
+// 369 RPL_ENDOFWHOWAS,        "<nick> :End of WHOWAS     ));
+std::string IrcMM::Fmt_RPL_ENDOFWHOWAS (NickName & nick )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_ENDOFWHOWAS, tags) ;
+}
+
+// 401 ERR_NOSUCHNICK,        "<nickname> :No such nick/channel     ));
+std::string IrcMM::Fmt_ERR_NOSUCHNICK (NickName & nick )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nickname>"] = nick.get();
+    return this->getFormattedMessage(ERR_NOSUCHNICK, tags) ;
+}
+
+// 406 ERR_WASNOSUCHNICK,        "<nickname> :There was no such nickname     ));
+std::string IrcMM::Fmt_ERR_WASNOSUCHNICK (NickName & nick ){
+    std::map<std::string, std::string>  tags ;
+    tags["<nickname>"] = nick.get();
+    return this->getFormattedMessage(ERR_WASNOSUCHNICK, tags) ;
+}
+
+// 432 ERR_ERRONEUSNICKNAME
+std::string IrcMM::Fmt_ERR_ERRONEUSNICKNAME (NickName & nick ) 
+{
+std::map<std::string, std::string>  tags ;
+tags["<nick>"] = nick.get();
+return this->getFormattedMessage(ERR_ERRONEUSNICKNAME, tags) ;
+}
+
+// 433 ERR_NICKNAMEINUSE
+std::string IrcMM::Fmt_ERR_NICKNAMEINUSE (NickName & nick ) 
+  {
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(ERR_NICKNAMEINUSE, tags) ;
+  }
+
+
+// 436 ERR_NICKCOLLISION 
+std::string IrcMM::Fmt_ERR_NICKCOLLISION (NickName & nick, UserName & user, HostName & host ) 
+{
+    std::map<std::string, std::string>  tags ;
+    //tags[""] = ;
+    tags["<nick>"] = nick.get();
+    tags["<user>"] = user.get();
+    tags["<host>"] = host.get();
+    return this->getFormattedMessage(ERR_NICKCOLLISION, tags) ;
+
+}
+
+// 437 ERR_UNAVAILRESOURCE,        "<nick/channel> :Nick/channel is temporarily unavailable     ));
+std::string IrcMM::Fmt_ERR_UNAVAILRESOURCE (NickName & nick )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick/channel>"] = nick.get();
+    return this->getFormattedMessage(ERR_UNAVAILRESOURCE, tags) ;
 }
 
 
 // Método para devolver un mensaje por su código
-const std::string* IrcMessageManager::getMessageByCode(int code) const {
+const std::string* IrcMM::getMessageByCode(int code) const {
     std::map<int, std::string>::const_iterator it = messages_.find(code);
     if (it != messages_.end()) {
         return &(it->second);
@@ -35,7 +158,7 @@ const std::string* IrcMessageManager::getMessageByCode(int code) const {
 }
 
 // Método para mostrar la información del mensaje por consola
-void IrcMessageManager::printMessage(int code) const {
+void IrcMM::printMessage(int code) const {
     const std::string* message = getMessageByCode(code);
     if (message) {
         std::cout << "--- Informacion del Mensaje ---" << std::endl;
@@ -48,7 +171,7 @@ void IrcMessageManager::printMessage(int code) const {
 }
 
 // Nuevo método público para obtener un mensaje con sustitución de etiquetas
-std::string IrcMessageManager::getFormattedMessage(
+std::string IrcMM::getFormattedMessage(
     int messageNumber,
     const std::map<std::string, std::string>& tags
 ) const {
@@ -69,7 +192,7 @@ std::string IrcMessageManager::getFormattedMessage(
 }
 
 // Nuevo método privado para realizar la sustitución de una sola etiqueta
-std::string IrcMessageManager::_substituteTag(
+std::string IrcMM::_substituteTag(
     const std::string& text,
     const std::string& substitutionTag,
     const std::string& substitutionText
@@ -94,7 +217,7 @@ std::string IrcMessageManager::_substituteTag(
 }
 
 // Método privado para inicializar el mapa con todos los datos
-void IrcMessageManager::initializeMessages() {
+void IrcMM::initializeMessages() {
     messages_.insert(std::make_pair(RPL_WELCOME,
         "Welcome to the Internet Relay Network <nick>!<user>@<host>"
     ));

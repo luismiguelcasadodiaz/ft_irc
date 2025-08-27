@@ -1,6 +1,5 @@
-
-
 #include "HostName.class.hpp"
+#include "Logger.class.hpp"
 #include <cctype>
 #include <algorithm>
 #include <sstream>
@@ -96,35 +95,40 @@ bool HostName::validate(const std::string& s) const {
 }
 
 // Canonical methods
-HostName::HostName() : value("localhost") {}
+HostName::HostName() : _host("localhost") {
+    Logger::getInstance().log("HostName::HostName localhost created.");
+}
 
-HostName::HostName(const HostName& other) : value(other.value) {}
+HostName::HostName(const HostName& other) : _host(other._host) {}
 
 HostName& HostName::operator=(const HostName& other) {
     if (this != &other) {
-        value = other.value;
+        _host = other._host;
     }
     return *this;
 }
 
-HostName::~HostName() {}
+HostName::~HostName() {
+    Logger::getInstance().log("HostName::HostName "+ _host + " destroyed.");
+}
 
 // Main Constructor
 HostName::HostName(const std::string& s) {
     if (!validate(s)) {
         throw std::invalid_argument("Invalid hostname format.");
     }
-    value = s;
+    _host = s;
+    Logger::getInstance().log("HostName::HostName "+ _host + " Created.");
 }
 
 // Accessor Method
 std::string HostName::get() const {
-    return value;
+    return _host;
 }
 
 // Comparison Operators
 bool HostName::operator==(const HostName& other) const {
-    return value == other.value;
+    return _host == other._host;
 }
 
 bool HostName::operator!=(const HostName& other) const {
@@ -132,7 +136,7 @@ bool HostName::operator!=(const HostName& other) const {
 }
 
 bool HostName::operator<(const HostName& other) const {
-    return value < other.value;
+    return _host < other._host;
 }
 
 bool HostName::operator>(const HostName& other) const {

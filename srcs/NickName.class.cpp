@@ -1,4 +1,5 @@
 #include "NickName.class.hpp"
+#include "Logger.class.hpp"
 #include <cctype>
 #include <algorithm>
 #include <iostream>
@@ -54,7 +55,7 @@ bool NickName::NormalizedCharLess::operator()(char a, char b) const {
 }
 
 // Canonical methods
-NickName::NickName() : value("A-------_") {}
+NickName::NickName() : _nick("Undefined") {}
 
 NickName::NickName(const NickName& other) {
     *this = other;
@@ -62,27 +63,31 @@ NickName::NickName(const NickName& other) {
 
 NickName& NickName::operator=(const NickName& other) {
     if (this != &other) {
-        this->value = other.value;
+        this->_nick = other._nick;
     }
     return *this;
 }
 
-NickName::~NickName() {}
+NickName::~NickName() {
+    Logger::getInstance().log("NickName::NickName " + _nick + " Destroyed.");
+   
+}
 
 // Constructor principal
 NickName::NickName(const std::string& name) {
     validate(name);
-    value = name;
+    _nick = name;
+    Logger::getInstance().log("NickName::NickName "+ _nick + " created.");
 }
 
 // Public methods
 std::string NickName::get() const {
-    return value;
+    return _nick;
 }
 
 // Overloaded comparison operators
 bool NickName::operator==(const NickName& other) const {
-    return std::equal(value.begin(), value.end(), other.value.begin(), NormalizedCharEqual());
+    return std::equal(_nick.begin(), _nick.end(), other._nick.begin(), NormalizedCharEqual());
 }
 
 bool NickName::operator!=(const NickName& other) const {
@@ -90,7 +95,7 @@ bool NickName::operator!=(const NickName& other) const {
 }
 
 bool NickName::operator<(const NickName& other) const {
-    return std::lexicographical_compare(value.begin(), value.end(), other.value.begin(), other.value.end(), NormalizedCharLess());
+    return std::lexicographical_compare(_nick.begin(), _nick.end(), other._nick.begin(), other._nick.end(), NormalizedCharLess());
 }
 
 bool NickName::operator>(const NickName& other) const {

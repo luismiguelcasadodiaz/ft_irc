@@ -6,7 +6,7 @@
 #    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/08/27 18:10:14 by luicasad         ###   ########.fr        #
+#    Updated: 2025/08/27 18:06:24 by luicasad         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ DARK_YELLOW		=	\033[38;5;143m
 # ============================================================================ #
 
 TARGET			= main
-SRCDIR			= ./
+SRCDIR			= ./srcs/
 OBJDIR 			= ./obj/
 
 REQUIRED_DIRS	= $(OBJDIR)
@@ -50,20 +50,16 @@ LFLGS 			= -fsanitize=address
 
 HEADERS		=	NickName.class.hpp \
 				HostName.class.hpp \
-				UserName.class.hpp \
-				Logger.class.hpp \
 				IrcNumerics.hpp \
 				IrcMM.class.hpp \
 
 SRCS_TARGET	= 	NickName.class.cpp \
 				HostName.class.cpp \
-				UserName.class.cpp \
-				Logger.class.cpp \
 				IrcMM.class.cpp \
 				main.cpp \
 
 
-FILE_TARGET = $(addprefix $(SRCDIR_TARGET), $(SRCS_TARGET))
+FILE_TARGET = $(addprefix $(SRCDIR), $(SRCS_TARGET))
 OBJS_TARGET = $(addprefix $(OBJDIR), $(SRCS_TARGET:.cpp=.o))
 DEPE_TARGET = $(addprefix $(OBJDIR), $(SRCS_TARGET:.cpp=.d))
 
@@ -100,7 +96,7 @@ $(TARGET): Makefile  $(OBJS_TARGET) $(HEADERS)
 	$(CC) $(LFLGS) $(OBJS_TARGET) -o $@ $(LLIBS) $(FRAMEWORKS)
 
 # .......................... objects construction ............................ #
-$(OBJDIR)%.o: $(SRCDIR_TARGET)%.cpp 
+$(OBJDIR)%.o: $(SRCDIR)%.cpp
 	@echo "$(GREEN)========== COMPILING $(TARGET) FILES ===============$(DEF_COLOR)"
 	$(CC) $(CFLGS) $< -o $@   
 

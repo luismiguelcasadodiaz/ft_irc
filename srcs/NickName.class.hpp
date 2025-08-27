@@ -4,28 +4,20 @@
 #include <string>
 #include <stdexcept>
 
+
+// Clase de excepción personalizada
+class NickNameException : public std::exception {
+    public:
+        NickNameException(const char* msg) : _msg(msg) {}
+        virtual ~NickNameException() throw() {}
+        virtual const char* what() const throw() {
+            return _msg.c_str();
+        }
+    private:
+        std::string _msg;
+    };
+
 class NickName {
-private:
-    std::string value;
-
-    // Helper function to validate a single character
-    bool isValidCharacter(char c, bool isFirstChar) const;
-
-    // Helper function to validate the full nickname
-    void validate(const std::string& name) const;
-
-    // Functor para normalizar y comparar caracteres
-    struct NormalizedCharEqual {
-        char normalize(char c) const;
-        bool operator()(char a, char b) const;
-    };
-
-    // Functor para la comparación lexicográfica
-    struct NormalizedCharLess {
-        char normalize(char c) const;
-        bool operator()(char a, char b) const;
-    };
-
 public:
     // Forma canónica
     NickName();
@@ -46,6 +38,27 @@ public:
     bool operator>(const NickName& other) const;
     bool operator<=(const NickName& other) const;
     bool operator>=(const NickName& other) const;
+
+private:
+    std::string _nick;
+
+    // Helper function to validate a single character
+    bool isValidCharacter(char c, bool isFirstChar) const;
+
+    // Helper function to validate the full nickname
+    void validate(const std::string& name) const;
+
+    // Functor para normalizar y comparar caracteres
+    struct NormalizedCharEqual {
+        char normalize(char c) const;
+        bool operator()(char a, char b) const;
+    };
+
+    // Functor para la comparación lexicográfica
+    struct NormalizedCharLess {
+        char normalize(char c) const;
+        bool operator()(char a, char b) const;
+    };
 };
 
 #endif
