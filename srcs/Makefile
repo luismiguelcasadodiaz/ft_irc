@@ -51,6 +51,7 @@ LFLGS 			= -fsanitize=address
 HEADERS		=	NickName.class.hpp \
 				HostName.class.hpp \
 				UserName.class.hpp \
+				ChanName.class.hpp \
 				Logger.class.hpp \
 				IrcNumerics.hpp \
 				IrcMM.class.hpp \
@@ -58,6 +59,7 @@ HEADERS		=	NickName.class.hpp \
 SRCS_TARGET	= 	NickName.class.cpp \
 				HostName.class.cpp \
 				UserName.class.cpp \
+				ChanName.class.cpp \
 				Logger.class.cpp \
 				IrcMM.class.cpp \
 				main.cpp \
