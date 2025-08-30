@@ -7,6 +7,7 @@
 #include "IrcNumerics.hpp"
 #include <iostream>
 #include <map>
+#include <ctime>
 
 int main() {
 /*
@@ -165,32 +166,146 @@ try
     IrcMM manager;
     UserName user = UserName("luicasad");
     HostName host = HostName("student.42barcelona.com");
+    HostName destination = HostName("student.42malaga.com");
+    HostName server = HostName("student.42madrid.com");
+    HostName next_server = HostName("student.42urduliz.com");
     NickName nick = NickName("luismi196");
     ChanName cha1("#aabbb") ;
     ChanName cha2('#',"cpp") ;
     std::string real_name = "Luis Miguel Casado Díaz" ;
+    std::string version = "2.10" ;
+    std::string debug = "depurado" ;
+    std::string u_modes = "iwo";
+    std::string c_modes = "tklbo";
+    std::string type = "Type 420" ;
+    std::string comments = "El sabado por la tarde despues'de la siesta" ;
+    std::string server_info = "Las propiedades del servidor conocidas" ;
+    std::string mask = "a*b" ;
+    std::string command = "MODE" ;
+    std::string ip = "150.151.152.153" ;
+    std::string logfile = "/var/log/ft_irc.log" ;
+    time_t ahora = time(0);
+
+    int clients = 11 ;
+    int services = 222 ;
+    int servers = 3333 ;
+    int operators = 44444 ;
+    int connections = 555555 ;
+    int channels = 6666666 ;
+    int seconds =77777777 ;
+    int size = 1024 ;
+    int s_msg = 42 ; 
+    int s_Kbytes = 4242 ;
+    int r_msg = 424242 ;
+    int r_Kbytes = 424242 ;
+    int port_number = 6969 ;
+    int uptime = 123123123 ;
+    int bs_q_size = 456456456 ;
+    int us_q_size = 987987987 ;
+    int hopcount = 5 ;
+    int count = 15 ;
+    int remote_count = 30 ;
+    
+
+    char class1 = 'C';
+    char class2 = 'S';
+    char class3 = '?';
+    char letter = 'Q';
+
+ 
 
 
 
 
-
-
-
-
-
-
-
-        
     
 
 
 
     // 001 RPL_WELCOME
     std::cout << RPL_WELCOME << "\t" << manager.Fmt_RPL_WELCOME(nick, user, host) << std::endl;
+    // 002 RPL_YOURHOST, "Your host is <servername>, running version <ver>   ))
+    std::cout << RPL_YOURHOST << "\t" << manager.Fmt_RPL_YOURHOST (server, version ) << std::endl;     
+    // 003 RPL_CREATED, "This server was created <date>     ))
+    std::cout << RPL_CREATED << "\t" << manager.Fmt_RPL_CREATED (ahora ) << std::endl;
+    // 004 RPL_MYINFO, "<servername> <version> <available user modes> "<available channel modes>     ))
+    std::cout << RPL_MYINFO << "\t" << manager.Fmt_RPL_MYINFO (server, version, 
+        u_modes,  c_modes ) << std::endl;
+    // 005 RPL_BOUNCE, "Try server <server name>, port <port number>     ))
+    std::cout << RPL_BOUNCE << "\t" << manager.Fmt_RRPL_BOUNCE (server,  port_number ) << std::endl;   
+    // 200 RPL_TRACELINK, "Link <version & debug level> 
+    //          <destination> <next server> V<protocol version> 
+    //              <link uptime in seconds> <backstream sendq> <upstream sendq>"     ))
+    std::cout << RPL_TRACELINK << "\t" << manager.Fmt_RPL_TRACELINK ( version, debug, 
+        destination, next_server , version, 
+       uptime,  bs_q_size,  us_q_size) << std::endl;
+   // 201 RPL_TRACECONNECTING, "Try. <class> <server>     ))
+   std::cout << RPL_TRACECONNECTING << "\t" << manager.Fmt_RPL_TRACECONNECTING (class2, server ) << std::endl;     
+   // 202 RPL_TRACEHANDSHAKE, "H.S. <class> <server>     ))
+   std::cout << RPL_TRACEHANDSHAKE << "\t" << manager.Fmt_RPL_TRACEHANDSHAKE ( class3,  server ) << std::endl;     
+   
+    // 203 RPL_TRACEUNKNOWN, "???? <class> [<client IP address in dot form>]     ))
+    std::cout << RPL_TRACEUNKNOWN << "\t" << manager.Fmt_RPL_TRACEUNKNOWN (class1, ip ) << std::endl;  
+    // 204 RPL_TRACEOPERATOR,        "Oper <class> <nick>     ))
+    std::cout << RPL_TRACEOPERATOR << "\t" << manager.Fmt_RPL_TRACEOPERATOR (class1, nick ) << std::endl;  
+    // 205 RPL_TRACEUSER,        "User <class> <nick>     ))
+    std::cout << RPL_TRACEUSER << "\t" << manager.Fmt_RPL_TRACEUSER (class1, nick ) << std::endl;  
+    // 206 RPL_TRACESERVER, "Serv <class> <int>S 
+    //      <int>C <server>   
+    //      "<nick!user|*!*>@<host|server> V<protocol version>     ))
+    std::cout << RPL_TRACESERVER << "\t" << manager.Fmt_RPL_TRACESERVER ( class1, servers, 
+        clients,  host, 
+        user,  next_server,  version) << std::endl;       
+    // 207 RPL_TRACERVICE,      "Service <class> <name> <type> <active type>     ))
+    std::cout << RPL_TRACERVICE << "\t" << manager.Fmt_RPL_RPL_TRACERVICE (class1, real_name,
+        type, server ) << std::endl;  
+    // 208 RPL_TRACENEWTYPE,        "<newtype> 0 <client name>     ))
+    std::cout << RPL_TRACENEWTYPE << "\t" << manager.Fmt_RPL_TRACENEWTYPE (type, user ) << std::endl;  
+    // 209 RPL_TRACECLASS,        "Class <class> <count>     ))
+    std::cout << RPL_TRACECLASS << "\t" << manager.Fmt_RPL_TRACECLASS (class1, count) << std::endl;  
     // 210 RPL_TRACERECONNECT,        "Unused.     ));
     std::cout << RPL_TRACERECONNECT << "\t" << manager.Fmt_RPL_TRACERECONNECT ()  << std::endl;
+    // 211 RPL_STATSLINKINFO,        "<linkname> <sendq> <sent messages> <sent Kbytes> "<received messages> <received Kbytes> <time open>     ));
+    std::cout << RPL_STATSLINKINFO << "\t" << manager.Fmt_RPL_STATSLINKINFO (host, size, s_msg, s_Kbytes, r_msg, r_Kbytes, seconds) << std::endl;    
+    // 212 RPL_STATSCOMMANDS,     "<command> <count> <byte count> <remote count> ))
+    std::cout << RPL_STATSCOMMANDS << "\t" << manager.Fmt_RPL_STATSCOMMANDS (command, count, 
+        s_Kbytes, remote_count ) << std::endl;  
+    // 219 RPL_ENDOFSTATS,        "<stats letter> :End of STATS report     ))
+    std::cout << RPL_ENDOFSTATS << "\t" << manager.Fmt_RPL_ENDOFSTATS (letter ) << std::endl;
+    // 221 RPL_UMODEIS,        "<user mode string>     ))
+    std::cout << RPL_UMODEIS << "\t" << manager.Fmt_RPL_UMODEIS (u_modes) << std::endl;
+    // 234 RPL_SERVLIST, "<name> <server> <mask> <type> <hopcount> <info>     ))
+    std::cout << RPL_SERVLIST << "\t" << manager.Fmt_RPL_SERVLIST (nick, host, 
+        mask,  type, hopcount, server_info ) << std::endl;    
+    // 235 RPL_SERVLISTEND,        "<mask> <type> :End of service listing     ))
+    std::cout << RPL_SERVLISTEND << "\t" << manager.Fmt_RPL_SERVLISTEND (mask, type ) << std::endl;  
     // 242 RPL_STATSUPTIME,        ":Server Up %d days %d:%02d:%02d     ));
-    std::cout << RPL_STATSUPTIME << "\t" << manager.Fmt_RPL_STATSUPTIME ()  << std::endl;    
+    std::cout << RPL_STATSUPTIME << "\t" << manager.Fmt_RPL_STATSUPTIME ()  << std::endl;  
+    // 251 RPL_LUSERCLIENT,        ":There are <integer> users and <integer> services on "<integer> servers     ));
+    std::cout << RPL_LUSERCLIENT << "\t" << manager.Fmt_RPL_LUSERCLIENT (clients, services, servers ) << std::endl;    
+    // 252 RPL_LUSEROP,        "<integer> :operator(s) online     ));
+    std::cout << RPL_LUSEROP << "\t" << manager.Fmt_RPL_LUSEROP ( operators ) << std::endl;    
+    // 253 RPL_LUSERUNKNOWN,        "<integer> :unknown connection(s)     ));
+    std::cout << RPL_LUSERUNKNOWN << "\t" << manager.Fmt_RPL_LUSERUNKNOWN ( connections) << std::endl;    
+    // 254 RPL_LUSERCHANNELS,        "<integer> :channels formed     ));
+    std::cout << RPL_LUSERCHANNELS << "\t" << manager.Fmt_RPL_LUSERCHANNELS ( channels ) << std::endl;    
+    // 255 RPL_LUSERME,        ":I have <integer> clients and <integer> servers     ));
+    std::cout << RPL_LUSERME << "\t" << manager.Fmt_RPL_LUSERME ( clients, servers ) << std::endl;
+    // 256 RPL_ADMINME, "<server> :Administrative info     ))
+    std::cout << RPL_ADMINME << "\t" << manager.Fmt_RPL_ADMINME ( host) << std::endl;
+    // 257 RPL_ADMINLOC1,        ":<admin info>     ))
+    std::cout << RPL_ADMINLOC1 << "\t" << manager.Fmt_RPL_ADMINLOC1 (server_info ) << std::endl;
+    // 258 RPL_ADMINLOC2,        ":<admin info>     ))
+    std::cout << RPL_ADMINLOC2 << "\t" << manager.Fmt_RPL_ADMINLOC2 (server_info) << std::endl;
+    // 259 RPL_ADMINEMAIL,        ":<admin info>     ))
+    std::cout << RPL_ADMINEMAIL << "\t" << manager.Fmt_RPL_ADMINEMAIL (server_info ) << std::endl;
+    // 261 RPL_TRACELOG,        "File <logfile> <debug level>     ))
+    std::cout << RPL_TRACELOG << "\t" << manager.Fmt_RPL_TRACELOG (logfile, debug ) << std::endl;  
+    // 262 RPL_TRACEEND, "<server name> <version & debug level> :End of TRACE     ))
+    std::cout << RPL_TRACEEND << "\t" << manager.Fmt_RPL_TRACEEND ( host,  version, 
+        debug) << std::endl;    
+    // 263 RPL_TRYAGAIN,        "<command> :Please wait a while and try again. ))
+    std::cout << RPL_TRYAGAIN << "\t" << manager.Fmt_RPL_TRYAGAIN (command ) << std::endl;
+
     // 303 RPL_ISON
     std::cout << RPL_ISON << "\t" << manager.Fmt_RPL_ISON(nick) << std::endl;
     // 305 RPL_UNAWAY,        ":You are no longer marked as being away     ));
@@ -199,10 +314,14 @@ try
     std::cout << RPL_NOWAWAY << "\t" << manager.Fmt_RPL_NOWAWAY ()  << std::endl;    
     // 311 RPL_WHOISUSER
     std::cout << RPL_WHOISUSER << "\t" << manager.Fmt_RPL_WHOISUSER (nick, user, host, real_name ) << std::endl ;
+    // 312 RPL_WHOISSERVER, "<nick> <server> :<server info>     ))
+    std::cout << RPL_WHOISSERVER << "\t" << manager.Fmt_RPL_WHOISSERVER (nick, host, server_info ) << std::endl;
     // 313 RPL_WHOISOPERATOR
     std::cout << RPL_WHOISOPERATOR << "\t" << manager.Fmt_RPL_WHOISOPERATOR(nick) << std::endl;
     // 314 RPL_WHOWASUSER
     std::cout << RPL_WHOWASUSER << "\t" << manager.Fmt_RPL_WHOWASUSER (nick, user, host, real_name ) << std::endl ;
+    // 317 RPL_WHOISIDLE,        "<nick> <integer> :seconds idle     ));
+    std::cout << RPL_WHOISIDLE << "\t" << manager.Fmt_RPL_WHOISIDLE (nick, seconds ) << std::endl;      
     // 318 RPL_ENDOFWHOIS
     std::cout << RPL_ENDOFWHOIS << "\t" << manager.Fmt_RPL_ENDOFWHOIS(nick) << std::endl;   
     // 319 RPL_WHOISCHANNELS,        "<nick> :*( ( \"@\" / \"+\" ) <channel> \" \" )     ));
@@ -221,8 +340,16 @@ try
     std::cout << RPL_ENDOFINVITELIST << "\t" <<  manager.Fmt_RPL_ENDOFINVITELIST ( cha1 ) << std::endl ;
     // 349 RPL_ENDOFEXCEPTLIST,        "<channel> :End of channel exception list     ));
     std::cout << RPL_ENDOFEXCEPTLIST << "\t" <<  manager.Fmt_RPL_ENDOFEXCEPTLIST ( cha1 ) << std::endl ;
+    // 351 RPL_VERSION, "<version>.<debuglevel> <server> :<comments>     ))
+    std::cout << RPL_VERSION << "\t" << manager.Fmt_RPL_VERSION (version,  debug, 
+        host, comments ) << std::endl;
+    // 352 RPL_WHOREPLY, "<channel> <user> <host> <server> <nick> ( \"H\" / \"G\"   "> [\"*\"] [ ( \"@\" / \"+\" ) ] :<hopcount> <real name>     ))
+    std::cout << RPL_WHOREPLY << "\t" << manager.Fmt_RPL_WHOREPLY ( cha1,  user, 
+         host,  server,  nick,  hopcount, real_name ) << std::endl;    
     // 353 RPL_NAMREPLY,        "( \"=\" / \"*\" / \"@\" ) <channel> :[ \"@\" / \"+\" ]          "<nick> *( \" \" [ \"@\" / \"+\" ] <nick> )     ));
     std::cout << RPL_NAMREPLY << "\t" << manager.Fmt_RPL_NAMREPLY (cha2, nick )  << std::endl;
+    // 364 RPL_LINKS, "<mask> <server> :<hopcount> <server info>     ))
+    std::cout << RPL_LINKS << "\t" << manager.Fmt_RPL_LINKS (mask,  host, hopcount,  server_info ) << std::endl;
     // 366 RPL_ENDOFNAMES,        "<channel> :End of NAMES list     ));
     std::cout << RPL_ENDOFNAMES << "\t" <<  manager.Fmt_RPL_ENDOFNAMES ( cha1 ) << std::endl ;
     // 368 RPL_ENDOFBANLIST,        "<channel> :End of channel ban list     ));
@@ -231,16 +358,20 @@ try
     std::cout << RPL_ENDOFWHOWAS << "\t" << manager.Fmt_RPL_ENDOFWHOWAS(nick) << std::endl;     
     // 374 RPL_ENDOFINFO,        ":End of INFO list     ));
     std::cout << RPL_ENDOFINFO << "\t" << manager.Fmt_RPL_ENDOFINFO ()  << std::endl;
+    // 375 RPL_MOTDSTART, ":- <server> Message of the day -      ))
+    std::cout << RPL_MOTDSTART << "\t" << manager.Fmt_RPL_MOTDSTART ( host ) << std::endl;    
     // 376 RPL_ENDOFMOTD,        ":End of MOTD command     ));
     std::cout << RPL_ENDOFMOTD << "\t" << manager.Fmt_RPL_ENDOFMOTD ()  << std::endl;
     // 381 RPL_YOUREOPER,        ":You are now an IRC operator     ));
     std::cout << RPL_YOUREOPER << "\t" << manager.Fmt_RPL_YOUREOPER ()  << std::endl;
+    // 391 RPL_TIME, "<server> :<string showing server's local time>     ))
+    std::cout << RPL_TIME << "\t" << manager.Fmt_RPL_TIME (host, ahora ) << std::endl;     
     // 392 RPL_USERSSTART,        ":UserID Terminal Host     ));
     std::cout << RPL_USERSSTART << "\t" << manager.Fmt_RPL_USERSSTART ()  << std::endl;
     // 394 RPL_ENDOFUSERS,        ":End of users     ));
     std::cout << RPL_ENDOFUSERS << "\t" << manager.Fmt_RPL_ENDOFUSERS()  << std::endl;
     // 395 RPL_NOUSERS,        ":Nobody logged in     ));
-    std::cout << RPL_NOUSERS << "\t" << manager.Fmt_RPL_NOUSERS ()  << std::endl;    
+    std::cout << RPL_NOUSERS << "\t" << manager.Fmt_RPL_NOUSERS ()  << std::endl;   
     // 401 ERR_NOSUCHNICK
     std::cout << ERR_NOSUCHNICK << "\t" << manager.Fmt_ERR_NOSUCHNICK(nick) << std::endl;   
     // 403 ERR_NOSUCHCHANNEL,        "<channel name> :No such channel     ));
@@ -259,6 +390,8 @@ try
     std::cout << ERR_TOOMANYMATCHES << "\t" <<  manager.Fmt_ERR_TOOMANYMATCHES ( cha1 ) << std::endl ;      
     // 422 ERR_NOMOTD,        ":MOTD File is missing     ));
     std::cout << ERR_NOMOTD << "\t" << manager.Fmt_ERR_NOMOTD ()  << std::endl;
+    // 423 ERR_NOADMININFO, "<server> :No administrative info available     ))
+    std::cout << ERR_NOADMININFO << "\t" << manager.Fmt_ERR_NOADMININFO ( host ) << std::endl ;
     // 431 ERR_NONICKNAMEGIVEN,        ":No nickname given     ));
     std::cout << ERR_NONICKNAMEGIVEN << "\t" << manager.Fmt_ERR_NONICKNAMEGIVEN ()  << std::endl;    
     // 432 ERR_ERRONEUSNICKNAME

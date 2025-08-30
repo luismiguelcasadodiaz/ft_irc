@@ -1,6 +1,7 @@
 #include "IrcMM.class.hpp"
 #include "IrcNumerics.hpp"
 #include <iostream>
+#include <sstream>
 
 // Constructor: llama al método de inicialización
 IrcMM::IrcMM() {
@@ -24,12 +25,7 @@ IrcMM::~IrcMM() {
     
 }
 
-
-
-
-
-
-
+    
 
 
 
@@ -43,16 +39,412 @@ std::string IrcMM::Fmt_RPL_WELCOME (NickName & nick, UserName & user, HostName &
     return this->getFormattedMessage(RPL_WELCOME, tags) ;
 }
 
+// 002 RPL_YOURHOST, "Your host is <servername>, running version <ver>   ))
+std::string IrcMM::Fmt_RPL_YOURHOST (HostName & server, std::string & version ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<servername>"] = server.get();
+    tags["<ver>"] = version;
+    return this->getFormattedMessage(RPL_YOURHOST, tags) ;
+}    
+    
+// 003 RPL_CREATED, "This server was created <date>     ))
+std::string IrcMM::Fmt_RPL_CREATED (time_t & time ) 
+{
+    std::map<std::string, std::string>  tags ;
+    // Convert time_t to a tm struct for local time
+    tm* local_time = localtime(&time);
+
+    // Use a character buffer to format the output
+    char buffer[80];
+    // Format the date and time string
+    // %Y = Year with century (e.g., 2025)
+    // %m = Month as a decimal number (01-12)
+    // %d = Day of the month (01-31)
+    // %H = Hour in 24-hour format (00-23)
+    // %M = Minute (00-59)
+    // %S = Second (00-59)
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d", local_time);
+    tags["<date>"] = buffer;
+    return this->getFormattedMessage(RPL_CREATED, tags) ;
+}
+
+// 004 RPL_MYINFO, "<servername> <version> <available user modes> "<available channel modes>     ))
+std::string IrcMM::Fmt_RPL_MYINFO (HostName & server, std::string & version, 
+    std::string & u_modes, std::string & c_modes )  
+    {
+        std::map<std::string, std::string>  tags ;      
+        tags["<servername>"] = server.get();
+        tags["<version>"] = version;
+        tags["<available user modes>"] = u_modes;
+        tags["<available channel modes>"] = c_modes;
+        return this->getFormattedMessage(RPL_MYINFO, tags) ;
+    }    
+    
+// 005 RPL_BOUNCE, "Try server <server name>, port <port number>     ))
+std::string IrcMM::Fmt_RRPL_BOUNCE (HostName & server, int & port_number ) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    tags["<server name>"] = server.get();
+    ss << port_number ;
+    tags["<port number>"] = ss.str();
+    return this->getFormattedMessage(RPL_BOUNCE, tags) ;
+}  
+
+// 200 RPL_TRACELINK, "Link <version & debug level> 
+//          <destination> <next server> V<protocol version> 
+//              <link uptime in seconds> <backstream sendq> <upstream sendq>"     ))
+std::string IrcMM::Fmt_RPL_TRACELINK (std::string & ver, std::string & debug, 
+    HostName & destination, HostName & next_server , std::string & version, 
+    int & uptime, int & bs_q_size, int & us_q_size)  
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        tags["<version & debug level>"] = ver + ":" + debug;
+        tags["<destination>"] = destination.get();
+        tags["<next server>"] = next_server.get();
+        tags["<protocol version>"] = version;
+        ss  << uptime ;
+        tags["<link uptime in seconds>"] = ss.str();
+        ss.str("");
+        ss.clear();
+        ss  << bs_q_size ;
+        tags["<backstream sendq>"] = ss.str();
+        ss.str("");
+        ss.clear();
+        ss  << us_q_size ;
+        tags["<upstream sendq>"] = ss.str();
+        return this->getFormattedMessage(RPL_TRACELINK, tags) ;
+    }    
+    
+// 201 RPL_TRACECONNECTING, "Try. <class> <server>     ))
+std::string IrcMM::Fmt_RPL_TRACECONNECTING (char & clase, HostName & server )  
+{
+    std::map<std::string, std::string>  tags ;
+
+    tags["<class>"] = clase;
+    tags["<server>"] = server.get();
+    return this->getFormattedMessage(RPL_TRACECONNECTING, tags) ;
+}    
+    
+// 202 RPL_TRACEHANDSHAKE, "H.S. <class> <server>     ))
+std::string IrcMM::Fmt_RPL_TRACEHANDSHAKE (char & clase, HostName & server ) 
+{
+    std::map<std::string, std::string>  tags ;
+
+    tags["<class>"] = clase;
+    tags["<server>"] = server.get();
+    return this->getFormattedMessage(RPL_TRACEHANDSHAKE, tags) ;
+}    
+
+// 203 RPL_TRACEUNKNOWN, "???? <class> [<client IP address in dot form>]     ))
+std::string IrcMM::Fmt_RPL_TRACEUNKNOWN (char & clase, std::string & ip ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<class>"] = clase;
+    tags["<client IP address in dot form>"] = ip;
+    return this->getFormattedMessage(RPL_TRACEUNKNOWN, tags) ;
+}      
+
+// 204 RPL_TRACEOPERATOR,        "Oper <class> <nick>     ))
+std::string IrcMM::Fmt_RPL_TRACEOPERATOR (char & clase, NickName & nick ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<class>"] = clase;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_TRACEOPERATOR, tags) ;
+}     
+
+// 205 RPL_TRACEUSER,        "User <class> <nick>     ))
+std::string IrcMM::Fmt_RPL_TRACEUSER (char & clase, NickName & nick ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<class>"] = clase;
+    tags["<nick>"] = nick.get();
+    return this->getFormattedMessage(RPL_TRACEUSER, tags) ;
+}      
+
+// 206 RPL_TRACESERVER, "Serv <class> <int>S 
+//      <int>C <server>   
+//      "<nick!user|*!*>@<host|server> V<protocol version>     ))
+std::string IrcMM::Fmt_RPL_TRACESERVER (char clase, int & servidores_conectados, 
+    int & clientes_conectados,  HostName & host_local, 
+    UserName & user, HostName & host_remoto, std::string & version)  
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        tags["<class>"] = clase;
+        ss << servidores_conectados ;
+        tags["<integer1>"] = ss.str();
+        ss.str("") ;
+        ss.clear() ;
+        ss << clientes_conectados ;
+        tags["<integer2>"] = ss.str();
+        tags["<server>"] = host_local.get();
+        tags["<user>"] = user.get();
+        tags["<host>"] = host_remoto.get();                        
+        tags["<protocol version>"] = version;
+        return this->getFormattedMessage(RPL_TRACESERVER, tags) ;
+    }    
+
+// 207 RPL_TRACERVICE,      "Service <class> <name> <type> <active type>     ))
+std::string IrcMM::Fmt_RPL_RPL_TRACERVICE (char & clase, std::string & name,
+    std::string & type, HostName & server ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<class>"] = clase;
+        tags["<name>"] = name;
+        tags["<type>"] = type;
+        tags["<active type>"] = server.get();
+        return this->getFormattedMessage(RPL_TRACERVICE, tags) ;
+    }    
+
+// 208 RPL_TRACENEWTYPE,        "<newtype> 0 <client name>     ))
+std::string IrcMM::Fmt_RPL_TRACENEWTYPE (std::string & type, UserName & user ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<newtype>"] = type;
+    tags["<client name>"] = user.get();
+    return this->getFormattedMessage(RPL_TRACENEWTYPE, tags) ;
+}     
+
+// 209 RPL_TRACECLASS,        "Class <class> <count>     ))
+std::string IrcMM::Fmt_RPL_TRACECLASS (char & clase, int & count) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss ;
+    tags["<class>"] = clase;
+    ss << count ;
+    tags["<count>"] = ss.str();
+    return this->getFormattedMessage(RPL_TRACECLASS, tags) ;
+}    
+
 // 210 RPL_TRACERECONNECT,        "Unused.     ));
 std::string IrcMM::Fmt_RPL_TRACERECONNECT ()  
 {
     return *this->getMessageByCode(RPL_TRACERECONNECT) ;
 }
 
+// 211 RPL_STATSLINKINFO,        "<linkname> <sendq> <sent messages> <sent Kbytes> "<received messages> <received Kbytes> <time open>     ));
+std::string IrcMM::Fmt_RPL_STATSLINKINFO (HostName & link, int & size, int & s_msg, int & s_Kbytes, int & r_msg, int & r_Kbytes, int & seconds) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    tags["<linkname>"] = link.get();
+    ss << size ;
+    tags["<sendq>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << s_msg ;
+    tags["<sent messages>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << s_Kbytes ;
+    tags["<sent Kbytes>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << r_msg ;
+    tags["<received messages>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << r_Kbytes ;
+    tags["<received Kbytes>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << seconds ;
+    tags["<time open>"] = ss.str();
+
+    return this->getFormattedMessage(RPL_STATSLINKINFO, tags) ;
+}    
+
+// 212 RPL_STATSCOMMANDS,     "<command> <count> <byte count> <remote count> ))
+std::string IrcMM::Fmt_RPL_STATSCOMMANDS (std::string & command, int & count, 
+    int & byte_count, int & remote_count )  
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    tags["<command>"] = command;
+    ss << count ;
+    tags["<count>"] = ss.str();
+    ss.str("") ;
+    ss.clear() ;
+    ss << byte_count ;
+    tags["<byte count>"] = ss.str();
+    ss.str("") ;
+    ss.clear() ;
+    ss << remote_count ;
+    tags["<remote count>"] = ss.str();
+    return this->getFormattedMessage(RPL_STATSCOMMANDS, tags) ;
+}    
+
+// 219 RPL_ENDOFSTATS,        "<stats letter> :End of STATS report     ))
+std::string IrcMM::Fmt_RPL_ENDOFSTATS (char & letter )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<stats letter>"] = letter;
+    return this->getFormattedMessage(RPL_ENDOFSTATS, tags) ;
+}
+
+// 221 RPL_UMODEIS,        "<user mode string>     ))
+std::string IrcMM::Fmt_RPL_UMODEIS (std::string & u_mode) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<user mode string>"] = u_mode;
+    return this->getFormattedMessage(RPL_UMODEIS, tags) ;
+}
+
+// 234 RPL_SERVLIST, "<name> <server> <mask> <type> <hopcount> <info>     ))
+std::string IrcMM::Fmt_RPL_SERVLIST (NickName & nick, HostName & host, 
+    std::string & mask, std::string & type, int & hopcount, 
+    std::string & server_info )  
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        tags["<name>"] = nick.get();
+        tags["<server>"] = host.get();
+        tags["<mask>"] = mask;
+        tags["<type>"] = type;
+        ss  << hopcount ;
+        tags["<hopcount>"] = ss.str();
+        tags["<info>"] = server_info;
+        return this->getFormattedMessage(RPL_SERVLIST, tags) ;
+    }    
+
+// 235 RPL_SERVLISTEND,        "<mask> <type> :End of service listing     ))
+std::string IrcMM::Fmt_RPL_SERVLISTEND (std::string & mask, std::string & type ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<mask>"] = mask;
+    tags["<type>"] = type;
+    return this->getFormattedMessage(RPL_SERVLISTEND, tags) ;
+} 
+
 // 242 RPL_STATSUPTIME,        ":Server Up %d days %d:%02d:%02d     ));
 std::string IrcMM::Fmt_RPL_STATSUPTIME ()  
 {
     return *this->getMessageByCode(RPL_STATSUPTIME) ;
+}
+
+// 251 RPL_LUSERCLIENT,        ":There are <integer> users and <integer> services on "<integer> servers     ));
+std::string IrcMM::Fmt_RPL_LUSERCLIENT (int & clients, int & services, int & servers )  
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << clients ;
+    tags["<integer1>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << services ;
+    tags["<integer2>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << servers ;
+    tags["<integer3>"] = ss.str();
+    return this->getFormattedMessage(RPL_LUSERCLIENT, tags) ;
+}  
+
+// 252 RPL_LUSEROP,        "<integer> :operator(s) online     ));
+std::string IrcMM::Fmt_RPL_LUSEROP (int & operators ) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << operators ;
+    tags["<nick>"] = ss.str();
+    return this->getFormattedMessage(RPL_ISON, tags) ;
+}
+        
+// 253 RPL_LUSERUNKNOWN,        "<integer> :unknown connection(s)     ));
+std::string IrcMM::Fmt_RPL_LUSERUNKNOWN (int & connections) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << connections ;
+    tags["<integer>"] = ss.str();
+    return this->getFormattedMessage(RPL_LUSEROP, tags) ;
+}
+        
+// 254 RPL_LUSERCHANNELS,        "<integer> :channels formed     ));
+std::string IrcMM::Fmt_RPL_LUSERCHANNELS (int & channels ) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << channels ;
+    tags["<integer>"] = ss.str();
+    return this->getFormattedMessage(RPL_LUSERCHANNELS, tags) ;
+}
+        
+// 255 RPL_LUSERME,        ":I have <integer1> clients and <integer2> servers     ));
+std::string IrcMM::Fmt_RPL_LUSERME (int & clients, int & servers ) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << clients;
+    tags["<integer1>"] = ss.str();
+    ss.str("");
+    ss.clear();
+    ss  << servers ;
+    tags["<integer2>"] = ss.str();
+    return this->getFormattedMessage(RPL_LUSERME, tags) ;
+}    
+
+// 256 RPL_ADMINME, "<server> :Administrative info     ))
+std::string IrcMM::Fmt_RPL_ADMINME (HostName & host) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<server>"] = host.get();
+    return this->getFormattedMessage(RPL_ADMINME, tags) ;
+}
+
+// 257 RPL_ADMINLOC1,        ":<admin info>     ))
+std::string IrcMM::Fmt_RPL_ADMINLOC1 (std::string & admin_info ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<admin info>"] = admin_info;
+    return this->getFormattedMessage(RPL_ADMINLOC1, tags) ;
+}
+
+// 258 RPL_ADMINLOC2,        ":<admin info>     ))
+std::string IrcMM::Fmt_RPL_ADMINLOC2 (std::string & admin_info) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<admin info>"] = admin_info;
+    return this->getFormattedMessage(RPL_ADMINLOC2, tags) ;
+}
+
+// 259 RPL_ADMINEMAIL,        ":<admin info>     ))
+std::string IrcMM::Fmt_RPL_ADMINEMAIL (std::string & admin_info )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<admin info>"] = admin_info ;
+    return this->getFormattedMessage(RPL_ADMINEMAIL, tags) ;
+}
+
+// 261 RPL_TRACELOG,        "File <logfile> <debug level>     ))
+std::string IrcMM::Fmt_RPL_TRACELOG (std::string & logfile, std::string & debug ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<logfile>"] = logfile;
+    tags["<debug level>"] = debug;
+    return this->getFormattedMessage(RPL_TRACELOG, tags) ;
+}      
+
+// 262 RPL_TRACEEND, "<server name> <version & debug level> :End of TRACE     ))
+std::string IrcMM::Fmt_RPL_TRACEEND (HostName & host, std::string & ver, 
+    std::string & debug )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<server name>"] = host.get();
+        tags["<version & debug level>"] = ver + ":" +debug;
+        return this->getFormattedMessage(RPL_TRACEEND, tags) ;
+    }    
+
+// 263 RPL_TRYAGAIN,        "<command> :Please wait a while and try again. ))
+std::string IrcMM::Fmt_RPL_TRYAGAIN (std::string & command ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<command>"] = command;
+    return this->getFormattedMessage(RPL_TRYAGAIN, tags) ;
 }
 
 // 305 RPL_UNAWAY,        ":You are no longer marked as being away     ));
@@ -88,6 +480,16 @@ std::string IrcMM::Fmt_RPL_WHOISUSER (NickName & nick, UserName & user, HostName
     return this->getFormattedMessage(RPL_WHOISUSER, tags) ;
 }
 
+// 312 RPL_WHOISSERVER, "<nick> <server> :<server info>     ))
+std::string IrcMM::Fmt_RPL_WHOISSERVER (NickName & nick, HostName & host, std::string & server_info )  
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<nick>"] = nick.get();
+    tags["<server>"] = host.get();
+    tags["<server info>"] = server_info;
+    return this->getFormattedMessage(RPL_WHOISSERVER, tags) ;
+}    
+
 // 313 RPL_WHOISOPERATOR,        "<nick> :is an IRC operator     ));
 std::string IrcMM::Fmt_RPL_WHOISOPERATOR (NickName & nick )  
 {
@@ -108,6 +510,17 @@ std::string IrcMM::Fmt_RPL_WHOWASUSER (NickName & nick, UserName & user, HostNam
 
     return this->getFormattedMessage(RPL_WHOWASUSER, tags) ;
 }
+
+// 317 RPL_WHOISIDLE,        "<nick> <integer> :seconds idle     ));
+std::string IrcMM::Fmt_RPL_WHOISIDLE (NickName & nick, int & seconds ) 
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    ss << seconds ;
+    tags["<nick>"] = nick.get();
+    tags["<integer>"] = ss.str();
+    return this->getFormattedMessage(RPL_WHOISIDLE, tags) ;
+}   
 
 // 318 RPL_ENDOFWHOIS,        "<nick> :End of WHOIS list     ));
 std::string IrcMM::Fmt_RPL_ENDOFWHOIS (NickName & nick )  
@@ -180,6 +593,37 @@ std::string IrcMM::Fmt_RPL_ENDOFEXCEPTLIST (ChanName & channel )
     return this->getFormattedMessage(RPL_ENDOFEXCEPTLIST, tags) ;
 }
 
+// 351 RPL_VERSION, "<version>.<debuglevel> <server> :<comments>     ))
+std::string IrcMM::Fmt_RPL_VERSION (std::string & ver, std::string & debug_level, 
+    HostName & host, std::string & comments )  
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        tags["<version>"] = ver;
+        tags["<debuglevel>"] = debug_level;
+        tags["<server>"] = host.get() ;
+        tags["<comments>"] = comments;
+        return this->getFormattedMessage(RPL_VERSION, tags) ;
+    }
+
+// 352 RPL_WHOREPLY, "<channel> <user> <host> <server> <nick> ( \"H\" / \"G\"   "> [\"*\"] [ ( \"@\" / \"+\" ) ] :<hopcount> <real name>     ))
+std::string IrcMM::Fmt_RPL_WHOREPLY (ChanName & chan, UserName & user, 
+    HostName & host, HostName & server,  NickName & nick, int & hopcount, 
+    std::string & real_name ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        tags["<channel>"] = chan.get();
+        tags["<user>"] = user.get();
+        tags["<host>"] = host.get();
+        tags["<server>"] = server.get();
+        tags["<nick>"] = nick.get();
+        ss  << hopcount ;
+        tags["<hopcount>"] = ss.str();
+        tags["<real name>"] = real_name;
+        return this->getFormattedMessage(RPL_WHOREPLY, tags) ;
+    }
+
 // 353 RPL_NAMREPLY,        "( \"=\" / \"*\" / \"@\" ) <channel> :[ \"@\" / \"+\" ]          "<nick> *( \" \" [ \"@\" / \"+\" ] <nick> )     ));
 std::string IrcMM::Fmt_RPL_NAMREPLY (ChanName & chan, NickName & nick ) 
 {
@@ -189,6 +633,19 @@ std::string IrcMM::Fmt_RPL_NAMREPLY (ChanName & chan, NickName & nick )
     return this->getFormattedMessage(RPL_NAMREPLY, tags) ;
 }
 
+// 364 RPL_LINKS, "<mask> <server> :<hopcount> <server info>     ))
+std::string IrcMM::Fmt_RPL_LINKS (std::string & mask, HostName & host, int & hopcount, std::string & server_info )  
+{
+    std::map<std::string, std::string>  tags ;
+    std::stringstream ss;
+    tags["<mask>"] = mask;
+    tags["<server>"] = host.get();
+    ss  << hopcount ;
+    tags["<hopcount>"] = ss.str();
+    tags["<server info>"] = server_info;
+    return this->getFormattedMessage(RPL_LINKS, tags) ;
+}    
+       
 // 366 RPL_ENDOFNAMES,        "<channel> :End of NAMES list     ));
 std::string IrcMM::Fmt_RPL_ENDOFNAMES (ChanName & channel )
 {
@@ -219,6 +676,15 @@ std::string IrcMM::Fmt_RPL_ENDOFINFO ()
     return *this->getMessageByCode(RPL_ENDOFINFO) ;
 }
 
+
+// 375 RPL_MOTDSTART, ":- <server> Message of the day -      ))
+std::string IrcMM::Fmt_RPL_MOTDSTART (HostName & host ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<server>"] = host.get();
+    return this->getFormattedMessage(RPL_MOTDSTART, tags) ;
+}
+
 // 376 RPL_ENDOFMOTD,        ":End of MOTD command     ));
 std::string IrcMM::Fmt_RPL_ENDOFMOTD ()  
 {
@@ -231,6 +697,29 @@ std::string IrcMM::Fmt_RPL_YOUREOPER ()
     return *this->getMessageByCode(RPL_YOUREOPER) ;
 }
 
+// 391 RPL_TIME, "<server> :<string showing server's local time>     ))
+std::string IrcMM::Fmt_RPL_TIME (HostName & host, time_t & time ) 
+{
+    std::map<std::string, std::string>  tags ;
+    // Convert time_t to a tm struct for local time
+    tm* local_time = localtime(&time);
+
+    // Use a character buffer to format the output
+    char buffer[80];
+
+    // Format the date and time string
+    // %Y = Year with century (e.g., 2025)
+    // %m = Month as a decimal number (01-12)
+    // %d = Day of the month (01-31)
+    // %H = Hour in 24-hour format (00-23)
+    // %M = Minute (00-59)
+    // %S = Second (00-59)
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", local_time);
+    tags["<server>" ] = host.get();
+    tags["<string showing server's local time>"] = buffer;
+    return this->getFormattedMessage(RPL_TIME, tags) ;
+}    
+ 
 // 392 RPL_USERSSTART,        ":UserID Terminal Host     ));
 std::string IrcMM::Fmt_RPL_USERSSTART ()  
 {
@@ -304,6 +793,14 @@ std::string IrcMM::Fmt_ERR_NOTEXTTOSEND ()
 std::string IrcMM::Fmt_ERR_NOMOTD ()  
 {
     return *this->getMessageByCode(ERR_NOMOTD) ;
+}
+
+// 423 ERR_NOADMININFO, "<server> :No administrative info available     ))
+std::string IrcMM::Fmt_ERR_NOADMININFO (HostName & host ) 
+{
+    std::map<std::string, std::string>  tags ;
+    tags["<server>"] = host.get();
+    return this->getFormattedMessage(ERR_NOADMININFO, tags) ;
 }
 
 // 431 ERR_NONICKNAMEGIVEN,        ":No nickname given     ));
@@ -649,8 +1146,8 @@ void IrcMM::initializeMessages() {
         "User <class> <nick>"
     ));
     messages_.insert(std::make_pair(RPL_TRACESERVER,
-        "Serv <class> <int>S <int>C <server> "
-        "<nick!user|*!*>@<host|server> V<protocol version>"
+        "Serv <class> <integer1>S <integer2>C <server> "
+        "<user>@<host> V<protocol version>"
     ));
     messages_.insert(std::make_pair(RPL_TRACERVICE,
         "Service <class> <name> <type> <active type>"
@@ -690,8 +1187,8 @@ void IrcMM::initializeMessages() {
         "O <hostmask> * <name>"
     ));
     messages_.insert(std::make_pair(RPL_LUSERCLIENT,
-        ":There are <integer> users and <integer> services on "
-        "<integer> servers"
+        ":There are <integer1> users and <integer2> services on "
+        "<integer3> servers"
     ));
     messages_.insert(std::make_pair(RPL_LUSEROP,
         "<integer> :operator(s) online"
@@ -703,7 +1200,7 @@ void IrcMM::initializeMessages() {
         "<integer> :channels formed"
     ));
     messages_.insert(std::make_pair(RPL_LUSERME,
-        ":I have <integer> clients and <integer> servers"
+        ":I have <integer1> clients and <integer2> servers"
     ));
     messages_.insert(std::make_pair(RPL_ADMINME,
         "<server> :Administrative info"

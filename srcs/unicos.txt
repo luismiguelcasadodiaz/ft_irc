@@ -1,0 +1,159 @@
+<admin info>
+<channel>
+<channel name>
+<command>
+<config file>
+<date>
+<integer>
+<mask>
+<name>
+<nick>
+<nick/channel>
+<nickname>
+<server>
+<server name>
+<service name>
+<servicename>
+<stats letter>
+<string>
+<text>
+<user>
+<user mode string>
+<channel>
+<banmask>
+<channel>
+<char>
+<channel>
+<exceptionmask>
+<channel>
+<invitemask>
+<channel>
+<nick>
+<channel>
+<nickname>
+<channel>
+<topic>
+<char>
+<channel>
+<class>
+<client IP address in dot form>
+<class>
+<count>
+<class>
+<nick>
+<class>
+<server>
+<file op>
+<file>
+<hostmask>
+<name>
+<integer>
+<integer>
+<logfile>
+<debug level>
+<mask>
+<type>
+<newtype>
+<client name>
+<nick>
+<away message>
+<nick>
+<channel>
+<nick>
+<integer>
+<nick>
+<nick>
+<reply>
+<reply>
+<server name>
+<port number>
+<servername>
+<ver>
+<server name>
+<version & debug level>
+<server>
+<string showing server's local time>
+<user>
+<channel>
+<channel>
+<mode>
+<mode params>
+<channel>
+<nick>
+<nick>
+<channel>
+<# visible>
+<topic>
+<integer>
+<integer>
+<integer>
+<nick>
+<server>
+<server info>
+OK 2 <nick>
+<user>
+<host>
+<target>
+<error code>
+<abort message>
+<username>
+<ttyline>
+<hostname>
+<class>
+<name>
+<type>
+<active type>
+<command>
+<count>
+<byte count>
+<remote count>
+<mask>
+<server>
+<hopcount>
+<server info>
+OK 2 <nick>
+<user>
+<host>
+<real name>
+<servername>
+<version>
+<available user modes>
+<available channel modes>
+<version>
+<debuglevel>
+<server>
+<comments>
+<name>
+<server>
+<mask>
+<type>
+<hopcount>
+<info>
+<channel>
+<user>
+<host>
+<server>
+<nick>
+<hopcount>
+<real name>
+<class>
+<int>
+<int>
+<server>
+<nick!user|*!*>
+<host|server>
+<protocol version>
+<linkname>
+<sendq>
+<sent messages>
+<sent Kbytes>
+<received messages>
+<received Kbytes>
+<time open>
+<version & debug level>
+<destination>
+<next server>
+<protocol version>
+<link uptime in seconds>
+<backstream sendq>
+<upstream sendq>

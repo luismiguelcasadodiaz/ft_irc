@@ -1,6 +1,12 @@
 UserName::UserName luicasad created.
 HostName::HostName student.42barcelona.com Created.
+HostName::HostName student.42malaga.com Created.
+HostName::HostName student.42madrid.com Created.
+HostName::HostName student.42urduliz.com Created.
 NickName::NickName luismi196 created.
 NickName::NickName luismi196 Destroyed.
+HostName::HostName student.42urduliz.com destroyed.
+HostName::HostName student.42madrid.com destroyed.
+HostName::HostName student.42malaga.com destroyed.
 HostName::HostName student.42barcelona.com destroyed.
 UserName::UserName luicasad destroyed.

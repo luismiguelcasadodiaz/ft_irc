@@ -272,3 +272,30 @@ While the RFC doesn't specify a precise length limit for the username, there are
 In summary, while the RFC doesn't explicitly state a length limit for the username like it does for the nickname, in practice, a combination of the protocol's message size limit and server-specific rules means that usernames are also subject to length and character restrictions, though these are not as universally standardized as the 9-character limit for nicknames.
 
 
+### Channel
+In the context of the IRC protocols defined by RFC 2812 and RFC 2813, a Channel represents a shared communication space between multiple clients. 
+
+Restrictions that apply to a Channel include rules regarding its name, visibility, access modes, and user control. 
+
+For example, channel names (channelstrings) must begin with certain special characters such as # or &, and cannot contain spaces, commas, or the ASCII character 7 (BEL). 
+
+In addition, there are limits on the length of the name and the number of users that can join simultaneously, depending on the server configuration. 
+
+The difference between a channelstring and a channelid lies in their function: 
+
+The channelstring is the human-readable, visible name of the channel used by users (such as #chat), while 
+The channelid is an internal unique identifier that the server uses to uniquely distinguish channels, especially useful in distributed networks or in name collision situations. 
+
+This distinction allows for more robust and consistent management of channels in complex IRC environments.
+
+📘 According to the official IRC standard defined in rfc2812
+
+The maximum length of a channel name (what we call a channelstring) is 200 characters. This is the technical limit established by the protocol.
+
+🔧 However, in real-world IRC server implementations (such as UnrealIRCd, ircd-hybrid, etc.): Many servers reduce this limit to 50 characters for practical reasons: efficiency, compatibility with legacy clients, and to prevent abuse.
+
+```bnf
+channel = ( "#" / "+" / ( "!" channelid ) / "&" ) chanstring [ ":" chanstring ]
+chanstring = %x01-07 / %x08-09 / %x0B-0C / %x0E-1F / %x21-2B/ %x2D-39 / %x3B-FF ; any octet except NUL, BELL, CR, LF, " ", "," and ":"
+channelid = 5( %x41-5A / digit ) ; 5( A-Z / 0-9 ) 
+``` 
