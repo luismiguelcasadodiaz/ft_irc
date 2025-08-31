@@ -25,6 +25,277 @@ IrcMM::~IrcMM() {
     
 }
 
+
+    // 301 RPL_AWAY,        "<nick> :<away message>     ))
+    std::string IrcMM::Fmt_RPL_AWAY (NickName & nick, std::string & message )  
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<nick>"] = nick.get();
+        tags["<away message>"] = message;
+        return this->getFormattedMessage(RPL_AWAY, tags) ;
+    }    
+    
+    // 302 RPL_USERHOST,        ":*1<reply> *( \" \" <reply> )     ))
+    std::string IrcMM::Fmt_RPL_USERHOST (std::string & reply ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<reply>"] = reply;
+        return this->getFormattedMessage(RPL_USERHOST, tags) ;
+    }
+    
+    // 315 RPL_ENDOFWHO,        "<name> :End of WHO list     ))
+    std::string IrcMM::Fmt_RPL_ENDOFWHO (ChanName&  chan ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<name>"] = chan.get();
+        return this->getFormattedMessage(RPL_ENDOFWHO, tags) ;
+    }
+    
+    // 322 RPL_LIST,        "<channel> <# visible> :<topic>     ))
+    std::string IrcMM::Fmt_RPL_LIST (ChanName & chan, int & u_visibles, std::string & topic)  
+    {
+        std::map<std::string, std::string>  tags ;
+        std::stringstream ss;
+        ss << u_visibles;
+        tags["<# visible>"] = ss.str();
+        tags["<channel>"] = chan.get();
+        tags["<topic>"] = topic;
+        return this->getFormattedMessage(RPL_LIST, tags) ;
+    }    
+    
+    // 324 RPL_CHANNELMODEIS,        "<channel> <mode> <mode params>     ))
+    std::string IrcMM::Fmt_RPL_CHANNELMODEIS (ChanName & chan, std::string & c_modes, std::string & parametros )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<channel>"] = chan.get();
+        tags["<mode>"] = c_modes;
+        tags["<mode params>"] = parametros;
+        return this->getFormattedMessage(RPL_CHANNELMODEIS, tags) ;
+    }    
+    
+    // 332 RPL_TOPIC,        "<channel> :<topic>     ))
+    std::string IrcMM::Fmt_RPL_TOPIC (ChanName & channel, std::string & topic )  
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<topic>"] = topic;
+        tags["<channel>"] = channel.get();
+        return this->getFormattedMessage(RPL_TOPIC, tags) ;
+    }    
+    
+    // 342 RPL_SUMMONING,        "<user> :Summoning user to IRC     ))
+    std::string IrcMM::Fmt_RPL_SUMMONING (UserName & user ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<user>"] = user.get();
+        return this->getFormattedMessage(RPL_SUMMONING, tags) ;
+    }
+    
+    // 346 RPL_INVITELIST,        "<channel> <invitemask>     ))
+    std::string IrcMM::Fmt_RPL_INVITELIST (ChanName & chan, std::string & invitemask ) 
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<invitemask>"] = invitemask;
+        tags["<channel>"] = chan.get();
+        return this->getFormattedMessage(RPL_INVITELIST, tags) ;
+    }    
+    
+    // 348 RPL_EXCEPTLIST,        "<channel> <exceptionmask>     ))
+    std::string IrcMM::Fmt_RPL_EXCEPTLIST (ChanName & chan, std::string & exceptionmask  )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<exceptionmask>"] = exceptionmask;
+        tags["<channel>"] = chan.get();
+        return this->getFormattedMessage(RPL_EXCEPTLIST, tags) ;
+    }    
+    
+    // 365 RPL_ENDOFLINKS,        "<mask> :End of LINKS list     ))
+    std::string IrcMM::Fmt_RPL_ENDOFLINKS (std::string & mask ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<mask>"] = mask;
+        return this->getFormattedMessage(RPL_ENDOFLINKS, tags) ;
+    }
+    
+    // 367 RPL_BANLIST,        "<channel> <banmask>     ))
+    std::string IrcMM::Fmt_RPL_BANLIST (ChanName & chan, std::string & banmask  )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<banmask>"] = banmask;
+        tags["<channel>"] = chan.get();
+        return this->getFormattedMessage(RPL_BANLIST, tags) ;
+    }    
+    
+    // 371 RPL_INFO,        ":<string>     ))
+    std::string IrcMM::Fmt_RPL_INFO (std::string & admin_info ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<string>"] = admin_info;
+        return this->getFormattedMessage(RPL_INFO, tags) ;
+    }
+    
+    // 372 RPL_MOTD,        ":- <text>     ))
+    std::string IrcMM::Fmt_RPL_MOTD (std::string & text ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<text>"] = text;
+        return this->getFormattedMessage(RPL_MOTD, tags) ;
+    }
+    
+    // 382 RPL_REHASHING,        "<config file> :Rehashing     ))
+    std::string IrcMM::Fmt_RPL_REHASHING (std::string & config_file ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<config file>"] = config_file;
+        return this->getFormattedMessage(RPL_REHASHING, tags) ;
+    }
+    
+    // 383 RPL_YOURESERVICE,        "You are service <servicename>     ))
+    std::string IrcMM::Fmt_RPL_YOURESERVICE(HostName & servicename ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<servicename>"] = servicename.get();
+        return this->getFormattedMessage(RPL_YOURESERVICE, tags) ;
+    }
+    
+    // 393 RPL_USERS,        ":<username> <ttyline> <hostname>     ))
+    std::string IrcMM::Fmt_RPL_USERS (NickName & nick, std::string & ttyline, HostName & host )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<ttyline>"] = ttyline;
+        tags["<username>"] = nick.get();
+        tags["<hostname>"] = host.get();
+        return this->getFormattedMessage(RPL_USERS, tags) ;
+    }
+    
+
+
+
+    // 402 ERR_NOSUCHSERVER,        "<server name> :No such server     ))
+    std::string IrcMM::Fmt_ERR_NOSUCHSERVER (HostName & server_name ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<server name>"] = server_name.get();
+        return this->getFormattedMessage(ERR_NOSUCHSERVER, tags) ;
+    }
+    
+    // 407 ERR_TOOMANYTARGETS,"<target> :<error code> recipients. <abort message>))
+    std::string IrcMM::Fmt_ERR_TOOMANYTARGETS (ChanName & channel, std::string & error_code, std::string & abort_message )  
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<target>"] = channel.get();
+        tags["<error code>"] = error_code;
+        tags["<abort message>"] = abort_message;                
+        return this->getFormattedMessage(ERR_TOOMANYTARGETS, tags) ;
+    }    
+    
+    // 408 ERR_NOSUCHSERVICE,        "<service name> :No such service     ))
+    std::string IrcMM::Fmt_ERR_NOSUCHSERVICE (HostName & server_name  ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<service name>"] = server_name.get();
+        return this->getFormattedMessage(ERR_NOSUCHSERVICE, tags) ;
+    }
+    
+    // 411 ERR_NORECIPIENT,        ":No recipient given (<command>)     ))
+    std::string IrcMM::Fmt_ERR_NORECIPIENT (std::string & command ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<command>"] = command;
+        return this->getFormattedMessage(ERR_NORECIPIENT, tags) ;
+    }
+    
+    // 413 ERR_NOTOPLEVEL,        "<mask> :No toplevel domain specified     ))
+    std::string IrcMM::Fmt_ERR_NOTOPLEVEL (std::string & mask ) 
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<mask>"] = mask;
+        return this->getFormattedMessage(ERR_NOTOPLEVEL, tags) ;
+    }
+    
+    // 414 ERR_WILDTOPLEVEL,        "<mask> :Wildcard in toplevel domain     ))
+    std::string IrcMM::Fmt_ERR_WILDTOPLEVEL (std::string & mask )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<mask>"] = mask;
+        return this->getFormattedMessage(ERR_WILDTOPLEVEL, tags) ;
+    }
+    
+    // 415 ERR_BADMASK,        "<mask> :Bad Server/host mask     ))
+    std::string IrcMM::Fmt_ERR_BADMASK (std::string & mask )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<mask>"] = mask;
+        return this->getFormattedMessage(ERR_BADMASK, tags) ;
+    }
+    
+    // 421 ERR_UNKNOWNCOMMAND,        "<command> :Unknown command     ))
+    std::string IrcMM::Fmt_ERR_UNKNOWNCOMMAND (std::string & command )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<command>"] = command;
+        return this->getFormattedMessage(ERR_UNKNOWNCOMMAND, tags) ;
+    }
+       
+    // 424 ERR_FILEERROR,        ":File error doing <file op> on <file>     ))
+    std::string IrcMM::Fmt_ERR_FILEERROR (std::string & fileop, std::string file )  
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<file op>"] = fileop;
+        tags["<file>"] = file;
+        return this->getFormattedMessage(ERR_FILEERROR, tags) ;
+    }    
+    
+    // 444 ERR_NOLOGIN,        "<user> :User not logged in     ))
+    std::string IrcMM::Fmt_NOLOGIN (UserName & user )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<user>"] = user.get();
+        return this->getFormattedMessage(ERR_NOLOGIN, tags) ;
+    }
+    
+    // 446 ERR_USERSDISABLED,        ":<user> has been disabled     ))
+    std::string IrcMM::Fmt_ERR_USERSDISABLED (UserName & user )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<user>"] = user.get();
+        return this->getFormattedMessage(ERR_USERSDISABLED, tags) ;
+    }
+    
+    // 461 ERR_NEEDMOREPARAMS,        "<command> :Not enough parameters     ))
+    std::string IrcMM::Fmt_ERR_NEEDMOREPARAMS (std::string & command )
+    {
+        std::map<std::string, std::string>  tags ;
+        tags["<command>"] = command;
+        return this->getFormattedMessage(ERR_NEEDMOREPARAMS, tags) ;
+    }
+
+    // 472 ERR_UNKNOWNMODE,"<char> :is unknown mode char to me for <channel>     ))
+    std::string IrcMM::Fmt_ERR_UNKNOWNMODE (char & letra, ChanName & chan )  
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<char>"] = letra;
+        tags["<channel>"] = chan.get();
+        return this->getFormattedMessage(ERR_UNKNOWNMODE, tags) ;
+    }    
+    
+    // 478 ERR_BANLISTFULL,        "<channel> <char> :Channel list is full     ))
+    std::string IrcMM::Fmt_ERR_BANLISTFULL (ChanName & chan, char & letra ) 
+    {
+        std::map<std::string, std::string>  tags ;
+    
+        tags["<char>"] = letra;
+        tags["<channel>"] = chan.get();
+        return this->getFormattedMessage(ERR_BANLISTFULL, tags) ;
+    }    
+    
+
+
+
     
 
 
@@ -885,12 +1156,6 @@ std::string IrcMM::Fmt_ERR_SUMMONDISABLED ()
     return *this->getMessageByCode(ERR_SUMMONDISABLED) ;
 }
 
-// 446 ERR_USERSDISABLED,        ":USERS has been disabled     ));
-std::string IrcMM::Fmt_ERR_USERSDISABLED ()  
-{
-    return *this->getMessageByCode(ERR_USERSDISABLED) ;
-}
-
 // 451 ERR_NOTREGISTERED,        ":You have not registered     ));
 std::string IrcMM::Fmt_ERR_NOTREGISTERED ()  
 {
@@ -1457,7 +1722,7 @@ void IrcMM::initializeMessages() {
         ":SUMMON has been disabled"
     ));
     messages_.insert(std::make_pair(ERR_USERSDISABLED,
-        ":USERS has been disabled"
+        ":<user> has been disabled"
     ));
     messages_.insert(std::make_pair(ERR_NOTREGISTERED,
         ":You have not registered"

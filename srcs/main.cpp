@@ -180,10 +180,23 @@ try
     std::string type = "Type 420" ;
     std::string comments = "El sabado por la tarde despues'de la siesta" ;
     std::string server_info = "Las propiedades del servidor conocidas" ;
-    std::string mask = "a*b" ;
+    std::string admin_info = "Las propiedades de administracion conocidas" ;
+    std::string mask = "*!john@*" ;
+    std::string invitemask = "+i *!*@trusted.org" ;
+    std::string banmask = "*!*@malicious.host.com" ;        
+    std::string exceptionmask = "+e *!trusteduser@*.spammer.net " ;    
     std::string command = "MODE" ;
+    std::string message = "Eres bien venido al proyecto FT_IRC (NaXaLu)";
     std::string ip = "150.151.152.153" ;
     std::string logfile = "/var/log/ft_irc.log" ;
+    std::string reply = "user1=+host1.net user2=-host2.net" ;
+    std::string ttyline = "/dev/tty12" ;
+    std::string fileop= "SAVE" ;
+    std::string topic = "El tópico de turno";
+    std::string parametros = "Parametros indefinidos";
+    std::string text = "Texto libre";
+    std::string error_code = "404";
+    std::string abort_message = "Razón del aborto de conexión";
     time_t ahora = time(0);
 
     int clients = 11 ;
@@ -205,6 +218,7 @@ try
     int hopcount = 5 ;
     int count = 15 ;
     int remote_count = 30 ;
+    int u_visibles = 9;
     
 
     char class1 = 'C';
@@ -213,6 +227,19 @@ try
     char letter = 'Q';
 
  
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -305,7 +332,10 @@ try
         debug) << std::endl;    
     // 263 RPL_TRYAGAIN,        "<command> :Please wait a while and try again. ))
     std::cout << RPL_TRYAGAIN << "\t" << manager.Fmt_RPL_TRYAGAIN (command ) << std::endl;
-
+    // 301 RPL_AWAY,        "<nick> :<away message>     ))
+    std::cout << RPL_AWAY << "\t" << manager.Fmt_RPL_AWAY (nick, message ) << std::endl; 
+    // 302 RPL_USERHOST,        ":*1<reply> *( \" \" <reply> )     ))
+    std::cout << RPL_USERHOST << "\t" << manager.Fmt_RPL_USERHOST (reply ) << std::endl;
     // 303 RPL_ISON
     std::cout << RPL_ISON << "\t" << manager.Fmt_RPL_ISON(nick) << std::endl;
     // 305 RPL_UNAWAY,        ":You are no longer marked as being away     ));
@@ -320,6 +350,8 @@ try
     std::cout << RPL_WHOISOPERATOR << "\t" << manager.Fmt_RPL_WHOISOPERATOR(nick) << std::endl;
     // 314 RPL_WHOWASUSER
     std::cout << RPL_WHOWASUSER << "\t" << manager.Fmt_RPL_WHOWASUSER (nick, user, host, real_name ) << std::endl ;
+    // 315 RPL_ENDOFWHO,        "<name> :End of WHO list     ))
+    std::cout << RPL_ENDOFWHO << "\t" << manager.Fmt_RPL_ENDOFWHO (  cha1 ) << std::endl;    
     // 317 RPL_WHOISIDLE,        "<nick> <integer> :seconds idle     ));
     std::cout << RPL_WHOISIDLE << "\t" << manager.Fmt_RPL_WHOISIDLE (nick, seconds ) << std::endl;      
     // 318 RPL_ENDOFWHOIS
@@ -328,18 +360,30 @@ try
     std::cout << RPL_WHOISCHANNELS << "\t" << manager.Fmt_RPL_WHOISCHANNELS (nick, cha1 )  << std::endl;
     // 321 RPL_LISTSTART,        "Obsolete.     ));
     std::cout << RPL_LISTSTART << "\t" << manager.Fmt_RPL_LISTSTART()  << std::endl;
+    // 322 RPL_LIST,        "<channel> <# visible> :<topic>     ))
+    std::cout << RPL_LIST << "\t" << manager.Fmt_RPL_LIST ( cha1, u_visibles, topic) << std::endl;   
     // 323 RPL_LISTEND,        ":End of LIST     ));
     std::cout << RPL_LISTEND << "\t" << manager.Fmt_RPL_LISTEND ()  << std::endl;    
+    // 324 RPL_CHANNELMODEIS,        "<channel> <mode> <mode params>     ))
+    std::cout << RPL_CHANNELMODEIS << "\t" << manager.Fmt_RPL_CHANNELMODEIS ( cha1, c_modes, parametros ) << std::endl;
     // 325 RPL_UNIQOPIS,        "<channel> <nickname>     ));
     std::cout << RPL_UNIQOPIS << "\t" << manager.Fmt_RPL_UNIQOPIS (cha2, nick )  << std::endl;
     // 331 RPL_NOTOPIC,        "<channel> :No topic is set     ));
     std::cout << RPL_NOTOPIC << "\t" <<  manager.Fmt_RPL_NOTOPIC ( cha1 ) << std::endl ;
+    // 332 RPL_TOPIC,        "<channel> :<topic>     ))
+    std::cout << RPL_TOPIC << "\t" << manager.Fmt_RPL_TOPIC ( cha2, admin_info ) << std::endl;
     // 341 RPL_INVITING,        "<channel> <nick>     ));
     std::cout << RPL_INVITING << "\t" << manager.Fmt_RPL_INVITING (cha1, nick )  << std::endl;
+    // 342 RPL_SUMMONING,        "<user> :Summoning user to IRC     ))
+    std::cout << RPL_SUMMONING << "\t" << manager.Fmt_RPL_SUMMONING ( user ) << std::endl;    
     // 347 RPL_ENDOFINVITELIST,        "<channel> :End of channel invite list     ));
     std::cout << RPL_ENDOFINVITELIST << "\t" <<  manager.Fmt_RPL_ENDOFINVITELIST ( cha1 ) << std::endl ;
+    // 346 RPL_INVITELIST,        "<channel> <invitemask>     ))
+    std::cout << RPL_INVITELIST << "\t" << manager.Fmt_RPL_INVITELIST ( cha2, invitemask )<< std::endl;
+    // 348 RPL_EXCEPTLIST,        "<channel> <exceptionmask>     ))
+    std::cout << RPL_EXCEPTLIST << "\t" << manager.Fmt_RPL_EXCEPTLIST ( cha1, exceptionmask  ) << std::endl;
     // 349 RPL_ENDOFEXCEPTLIST,        "<channel> :End of channel exception list     ));
-    std::cout << RPL_ENDOFEXCEPTLIST << "\t" <<  manager.Fmt_RPL_ENDOFEXCEPTLIST ( cha1 ) << std::endl ;
+    std::cout << RPL_ENDOFEXCEPTLIST << "\t" <<  manager.Fmt_RPL_ENDOFEXCEPTLIST ( cha1 ) << std::endl ;   
     // 351 RPL_VERSION, "<version>.<debuglevel> <server> :<comments>     ))
     std::cout << RPL_VERSION << "\t" << manager.Fmt_RPL_VERSION (version,  debug, 
         host, comments ) << std::endl;
@@ -350,12 +394,20 @@ try
     std::cout << RPL_NAMREPLY << "\t" << manager.Fmt_RPL_NAMREPLY (cha2, nick )  << std::endl;
     // 364 RPL_LINKS, "<mask> <server> :<hopcount> <server info>     ))
     std::cout << RPL_LINKS << "\t" << manager.Fmt_RPL_LINKS (mask,  host, hopcount,  server_info ) << std::endl;
+    // 365 RPL_ENDOFLINKS,        "<mask> :End of LINKS list     ))
+    std::cout << RPL_ENDOFLINKS << "\t" << manager.Fmt_RPL_ENDOFLINKS (mask ) << std::endl;    
     // 366 RPL_ENDOFNAMES,        "<channel> :End of NAMES list     ));
     std::cout << RPL_ENDOFNAMES << "\t" <<  manager.Fmt_RPL_ENDOFNAMES ( cha1 ) << std::endl ;
+    // 367 RPL_BANLIST,        "<channel> <banmask>     ))
+    std::cout << RPL_BANLIST << "\t" << manager.Fmt_RPL_BANLIST ( cha2, banmask  ) << std::endl;
     // 368 RPL_ENDOFBANLIST,        "<channel> :End of channel ban list     ));
     std::cout << RPL_ENDOFBANLIST << "\t" <<  manager.Fmt_RPL_ENDOFBANLIST ( cha1 ) << std::endl ; 
     // 369 RPL_ENDOFWHOWAS
-    std::cout << RPL_ENDOFWHOWAS << "\t" << manager.Fmt_RPL_ENDOFWHOWAS(nick) << std::endl;     
+    std::cout << RPL_ENDOFWHOWAS << "\t" << manager.Fmt_RPL_ENDOFWHOWAS(nick) << std::endl;  
+    // 371 RPL_INFO,        ":<string>     ))
+    std::cout << RPL_INFO << "\t" << manager.Fmt_RPL_INFO (admin_info ) << std::endl;
+    // 372 RPL_MOTD,        ":- <text>     ))
+    std::cout << RPL_MOTD << "\t" << manager.Fmt_RPL_MOTD (text ) << std::endl;
     // 374 RPL_ENDOFINFO,        ":End of INFO list     ));
     std::cout << RPL_ENDOFINFO << "\t" << manager.Fmt_RPL_ENDOFINFO ()  << std::endl;
     // 375 RPL_MOTDSTART, ":- <server> Message of the day -      ))
@@ -364,16 +416,24 @@ try
     std::cout << RPL_ENDOFMOTD << "\t" << manager.Fmt_RPL_ENDOFMOTD ()  << std::endl;
     // 381 RPL_YOUREOPER,        ":You are now an IRC operator     ));
     std::cout << RPL_YOUREOPER << "\t" << manager.Fmt_RPL_YOUREOPER ()  << std::endl;
+    // 382 RPL_REHASHING,        "<config file> :Rehashing     ))
+    std::cout << RPL_REHASHING << "\t" << manager.Fmt_RPL_REHASHING (logfile ) << std::endl;
+    // 383 RPL_YOURESERVICE,        "You are service <servicename>     ))
+    std::cout << RPL_YOURESERVICE << "\t" << manager.Fmt_RPL_YOURESERVICE( host) << std::endl;
     // 391 RPL_TIME, "<server> :<string showing server's local time>     ))
     std::cout << RPL_TIME << "\t" << manager.Fmt_RPL_TIME (host, ahora ) << std::endl;     
     // 392 RPL_USERSSTART,        ":UserID Terminal Host     ));
     std::cout << RPL_USERSSTART << "\t" << manager.Fmt_RPL_USERSSTART ()  << std::endl;
+    // 393 RPL_USERS,        ":<username> <ttyline> <hostname>     ))
+    std::cout << RPL_USERS << "\t" << manager.Fmt_RPL_USERS (nick, ttyline, host ) << std::endl;    
     // 394 RPL_ENDOFUSERS,        ":End of users     ));
     std::cout << RPL_ENDOFUSERS << "\t" << manager.Fmt_RPL_ENDOFUSERS()  << std::endl;
     // 395 RPL_NOUSERS,        ":Nobody logged in     ));
     std::cout << RPL_NOUSERS << "\t" << manager.Fmt_RPL_NOUSERS ()  << std::endl;   
     // 401 ERR_NOSUCHNICK
     std::cout << ERR_NOSUCHNICK << "\t" << manager.Fmt_ERR_NOSUCHNICK(nick) << std::endl;   
+    // 402 ERR_NOSUCHSERVER,        "<server name> :No such server     ))
+    std::cout << ERR_NOSUCHSERVER << "\t" << manager.Fmt_ERR_NOSUCHSERVER (host ) << std::endl;
     // 403 ERR_NOSUCHCHANNEL,        "<channel name> :No such channel     ));
     std::cout << ERR_NOSUCHCHANNEL << "\t" <<  manager.Fmt_ERR_NOSUCHCHANNEL ( cha1 ) << std::endl ;
     // 404 ERR_CANNOTSENDTOCHAN,        "<channel name> :Cannot send to channel     ));
@@ -382,16 +442,32 @@ try
     std::cout << ERR_TOOMANYCHANNELS << "\t" <<  manager.Fmt_ERR_TOOMANYCHANNELS ( cha1 ) << std::endl ;  
     // 406 ERR_WASNOSUCHNICK
     std::cout << ERR_WASNOSUCHNICK << "\t" << manager.Fmt_ERR_WASNOSUCHNICK(nick) << std::endl;
+    // 407 ERR_TOOMANYTARGETS,"<target> :<error code> recipients. <abort message>))
+    std::cout << ERR_TOOMANYTARGETS << "\t" << manager.Fmt_ERR_TOOMANYTARGETS ( cha2, error_code, abort_message ) << std::endl;
+    // 408 ERR_NOSUCHSERVICE,        "<service name> :No such service     ))
+    std::cout << ERR_NOSUCHSERVICE << "\t" << manager.Fmt_ERR_NOSUCHSERVICE (host  ) << std::endl;
     // 409 ERR_NOORIGIN,        ":No origin specified     ));
     std::cout << ERR_NOORIGIN << "\t" << manager.Fmt_ERR_NOORIGIN ()  << std::endl;
+    // 411 ERR_NORECIPIENT,        ":No recipient given (<command>)     ))
+    std::cout << ERR_NORECIPIENT << "\t" << manager.Fmt_ERR_NORECIPIENT (command ) << std::endl;
     // 412 ERR_NOTEXTTOSEND,        ":No text to send     ));
     std::cout << ERR_NOTEXTTOSEND << "\t" << manager.Fmt_ERR_NOTEXTTOSEND ()  << std::endl;
+    // 413 ERR_NOTOPLEVEL,        "<mask> :No toplevel domain specified     ))
+    std::cout << ERR_NOTOPLEVEL << "\t" << manager.Fmt_ERR_NOTOPLEVEL (mask ) << std::endl;
+    // 414 ERR_WILDTOPLEVEL,        "<mask> :Wildcard in toplevel domain     ))
+    std::cout << ERR_WILDTOPLEVEL << "\t" << manager.Fmt_ERR_WILDTOPLEVEL (mask ) << std::endl;
+    // 415 ERR_BADMASK,        "<mask> :Bad Server/host mask     ))
+    std::cout << ERR_BADMASK << "\t" << manager.Fmt_ERR_BADMASK (mask ) << std::endl;    
     // 416 ERR_TOOMANYMATCHES,        "<channel name> :You have joined too many channels     ));
     std::cout << ERR_TOOMANYMATCHES << "\t" <<  manager.Fmt_ERR_TOOMANYMATCHES ( cha1 ) << std::endl ;      
+    // 421 ERR_UNKNOWNCOMMAND,        "<command> :Unknown command     ))
+    std::cout << ERR_UNKNOWNCOMMAND << "\t" << manager.Fmt_ERR_UNKNOWNCOMMAND (command ) << std::endl;
     // 422 ERR_NOMOTD,        ":MOTD File is missing     ));
     std::cout << ERR_NOMOTD << "\t" << manager.Fmt_ERR_NOMOTD ()  << std::endl;
     // 423 ERR_NOADMININFO, "<server> :No administrative info available     ))
     std::cout << ERR_NOADMININFO << "\t" << manager.Fmt_ERR_NOADMININFO ( host ) << std::endl ;
+    // 424 ERR_FILEERROR,        ":File error doing <file op> on <file>     ))
+    std::cout << ERR_FILEERROR << "\t" << manager.Fmt_ERR_FILEERROR (fileop, logfile ) << std::endl;    
     // 431 ERR_NONICKNAMEGIVEN,        ":No nickname given     ));
     std::cout << ERR_NONICKNAMEGIVEN << "\t" << manager.Fmt_ERR_NONICKNAMEGIVEN ()  << std::endl;    
     // 432 ERR_ERRONEUSNICKNAME
@@ -408,12 +484,16 @@ try
     std::cout << ERR_NOTONCHANNEL << "\t" <<  manager.Fmt_ERR_NOTONCHANNEL ( cha1 ) << std::endl ;       
     // 443 ERR_USERONCHANNEL,        "<user> <channel> :is already on channel     ));
     std::cout << ERR_USERONCHANNEL << "\t" << manager.Fmt_ERR_USERONCHANNEL (user, cha2 )  << std::endl;
+    // 444 ERR_NOLOGIN,        "<user> :User not logged in     ))
+    std::cout << ERR_NOLOGIN << "\t" << manager.Fmt_NOLOGIN ( user ) << std::endl;    
     // 445 ERR_SUMMONDISABLED,        ":SUMMON has been disabled     ));
     std::cout << ERR_SUMMONDISABLED << "\t" << manager.Fmt_ERR_SUMMONDISABLED ()  << std::endl;
     // 446 ERR_USERSDISABLED,        ":USERS has been disabled     ));
-    std::cout << ERR_USERSDISABLED << "\t" << manager.Fmt_ERR_USERSDISABLED ()  << std::endl;
+    std::cout << ERR_USERSDISABLED << "\t" << manager.Fmt_ERR_USERSDISABLED (user)  << std::endl;
     // 451 ERR_NOTREGISTERED,        ":You have not registered     ));
     std::cout << ERR_NOTREGISTERED << "\t" << manager.Fmt_ERR_NOTREGISTERED ()  << std::endl;
+    // 461 ERR_NEEDMOREPARAMS,        "<command> :Not enough parameters     ))
+    std::cout << ERR_NEEDMOREPARAMS << "\t" << manager.Fmt_ERR_NEEDMOREPARAMS (command ) << std::endl;
     // 462 ERR_ALREADYREGISTRED,        ":Unauthorized command (already registered)     ));
     std::cout << ERR_ALREADYREGISTRED << "\t" << manager.Fmt_ERR_ALREADYREGISTRED ()  << std::endl;
     // 463 ERR_NOPERMFORHOST,        ":Your host isn't among the privileged     ));
@@ -428,6 +508,8 @@ try
     std::cout << ERR_KEYSET << "\t" <<  manager.Fmt_ERR_KEYSET ( cha1 ) << std::endl ;
     // 471 ERR_CHANNELISFULL,        "<channel> :Cannot join channel (+l)     ));
     std::cout << ERR_CHANNELISFULL << "\t" <<  manager.Fmt_ERR_CHANNELISFULL ( cha1 ) << std::endl ;
+    // 472 ERR_UNKNOWNMODE,"<char> :is unknown mode char to me for <channel>     ))
+    std::cout << ERR_UNKNOWNMODE << "\t" << manager.Fmt_ERR_UNKNOWNMODE (letter,  cha1 ) << std::endl;    
     // 473 ERR_INVITEONLYCHAN,        "<channel> :Cannot join channel (+i)     ));
     std::cout << ERR_INVITEONLYCHAN << "\t" <<  manager.Fmt_ERR_INVITEONLYCHAN ( cha1 ) << std::endl ;
     // 474 ERR_BANNEDFROMCHAN,        "<channel> :Cannot join channel (+b)     ));
@@ -438,6 +520,8 @@ try
     std::cout << ERR_BADCHANMASK << "\t" <<  manager.Fmt_ERR_BADCHANMASK ( cha1 ) << std::endl ;
     // 477 ERR_NOCHANMODES,        "<channel> :Channel doesn't support modes     ));
     std::cout << ERR_NOCHANMODES << "\t" <<  manager.Fmt_ERR_NOCHANMODES ( cha1 ) << std::endl ;
+    // 478 ERR_BANLISTFULL,        "<channel> <char> :Channel list is full     ))
+    std::cout << ERR_BANLISTFULL << "\t" << manager.Fmt_ERR_BANLISTFULL ( cha2, letter) << std::endl;
     // 481 ERR_NOPRIVILEGES,        ":Permission Denied- You're not an IRC operator     ));
     std::cout << ERR_NOPRIVILEGES << "\t" << manager.Fmt_RERR_NOPRIVILEGES ()  << std::endl;    
     // 482 ERR_CHANOPRIVSNEEDED,        "<channel> :You're not channel operator     ));
@@ -455,7 +539,13 @@ try
     // 502 ERR_USERSDONTMATCH,        ":Cannot change mode for other users     ));
     std::cout << ERR_USERSDONTMATCH << "\t" << manager.Fmt_ERR_USERSDONTMATCH ()  << std::endl;    
 
+
+   
       
+
+    
+
+    
 
 }
 catch(const std::exception& e)
