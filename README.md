@@ -16,7 +16,7 @@ Basically, you’ll want to convert the numbers to Network Byte Order before the
 
 
 # VIM
-### step 1: Remove empty lines. (:g/^$/d)
+### step 1: Remove empty lines. (`:g/^$/d`)
 ```c++
    PASS: Establece la contraseña para la conexión.
      
@@ -33,7 +33,7 @@ Basically, you’ll want to convert the numbers to Network Byte Order before the
    PING: Verifica si la conexión está activa.
 ```
     
-### step 2: Substitute command comments by `" ;` . (:% s/:.*\./" ;/g)
+### step 2: Substitute command comments by `" ;` . (`:% s/:.*\./" ;/g`)
 
 
 ```c++
@@ -46,7 +46,7 @@ Basically, you’ll want to convert the numbers to Network Byte Order before the
    PING: Verifica si la conexión está activa.
 ```
 
-### Step 3; Substitute leading spaces with type string (:%s/^\s*/std::string "/)
+### Step 3; Substitute leading spaces with type string (`:%s/^\s*/std::string "/`)
 
 ```c++
      PASS" ;
@@ -57,7 +57,7 @@ Basically, you’ll want to convert the numbers to Network Byte Order before the
      PONG" ;
      PING" ;
 ```
-### Step 4: create the name for the token variable  (:% s/"\(\w\+\)"/token_\L\1 = "\U\1"/g)
+### Step 4: create the name for the token variable  (`:% s/"\(\w\+\)"/token_\L\1 = "\U\1"/g`)
 
 
 ```c++
@@ -80,6 +80,45 @@ std::string token_quit = "QUIT" ;
 std::string token_pong = "PONG" ;
 std::string token_ping = "PING" ;
 ```
+
+
+## Transform token's list into a nexted if as parser backbone
+
+### Substitute string declaration by `else if ....` (`:% s/std::string/ else if (tokens[0] == /g`)
+
+```c++
+else if (tokens[0] ==  token_pass = "PASS" ;
+else if (tokens[0] ==  token_nick = "NICK" ;
+else if (tokens[0] ==  token_user = "USER" ;
+else if (tokens[0] ==  token_oper = "OPER" ;
+else if (tokens[0] ==  token_quit = "QUIT" ;
+else if (tokens[0] ==  token_pong = "PONG" ;
+else if (tokens[0] ==  token_ping = "PING" ;
+```
+### Substitute value asignation by then clause (`:% s/ = ".*/) {cmd_xxx(tokens);}/g`)
+
+```c++
+else if (tokens[0] ==  token_pass) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_nick) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_user) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_oper) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_quit) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_pong) {cmd_xxx(tokens);}
+else if (tokens[0] ==  token_ping) {cmd_xxx(tokens);}
+```
+
+### Capture token type and customize function name (` s/token_\(.*\)) {cmd_xxx/token_\1) {cmd_\1/g `)
+
+```c++
+else if (tokens[0] ==  token_pass) {cmd_pass(tokens);}
+else if (tokens[0] ==  token_nick) {cmd_nick(tokens);}
+else if (tokens[0] ==  token_user) {cmd_user(tokens);}
+else if (tokens[0] ==  token_oper) {cmd_oper(tokens);}
+else if (tokens[0] ==  token_quit) {cmd_quit(tokens);}
+else if (tokens[0] ==  token_pong) {cmd_pong(tokens);}
+else if (tokens[0] ==  token_ping) {cmd_ping(tokens);}
+```
+
 ### 5.2 Socket()
 So the most correct thing to do is to use AF_INET in your struct sockaddr_in and PF_INET in your call to socket().)
 
