@@ -49,6 +49,7 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "fstream": "cpp",
-        "ctime": "cpp"
+        "ctime": "cpp",
+        "ranges": "cpp"
     }
 }

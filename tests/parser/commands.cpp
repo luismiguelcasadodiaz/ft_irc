@@ -1,3 +1,4 @@
+#include <string>
 std::string token_pass = "PASS" ;
 std::string token_nick = "NICK" ;
 std::string token_user = "USER" ;
