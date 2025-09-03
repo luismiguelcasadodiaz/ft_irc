@@ -1,0 +1,11 @@
+[Wed Sep  3 00:04:15 2025] irc.example.org config.CONFIG_LOADED info: Configuration loaded
+[Wed Sep  3 00:04:15 2025] irc.example.org listen.LISTENING+ info: UnrealIRCd is now listening on the following addresses/ports:
+[Wed Sep  3 00:04:15 2025] irc.example.org listen.LISTENING+ info: IPv4: *:6900(TLS), *:6697(TLS), *:6667
+[Wed Sep  3 00:04:15 2025] irc.example.org listen.LISTENING+ info: IPv6: *:6900(TLS), *:6697(TLS), *:6667
+[Wed Sep  3 00:04:15 2025] irc.example.org listen.LISTENING info: Unix Sockets: <none>
+[Wed Sep  3 00:04:15 2025] irc.example.org main.UNREALIRCD_START info: UnrealIRCd started.
+[Wed Sep  3 00:04:15 2025] irc.example.org config.CONFIG_WARNING_GENERIC warn: [channeldb] No database present at '/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/data/channel.db', will start a new one
+[Wed Sep  3 00:04:15 2025] irc.example.org config.CONFIG_WARNING_GENERIC warn: [tkldb] No database present at '/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/data/tkl.db', will start a new one
+[Wed Sep  3 00:04:15 2025] irc.example.org config.CONFIG_WARNING_GENERIC warn: [reputation] No database present at '/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/data/reputation.db', will start a new one
+[Wed Sep  3 00:13:28 2025] irc.example.org connect.LOCAL_CLIENT_CONNECT info: Client connecting: lcasado (lcasado@192.168.0.26) [192.168.0.26] [vhost: 61968B88.5C851D14.BEF08BE0.IP] [class: clients] [secure: TLSv1.3-TLS_CHACHA20_POLY1305_SHA256] [reputation: 0] [security-groups: unknown-users,tls-users]
+[Wed Sep  3 00:40:42 2025] irc.example.org connect.LOCAL_CLIENT_DISCONNECT info: Client exiting: lcasado (lcasado@192.168.0.26) [192.168.0.26] (Connection closed)

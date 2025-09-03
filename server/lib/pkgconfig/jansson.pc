@@ -1,0 +1,10 @@
+prefix=/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/unrealircd-6.1.10/extras/jansson
+exec_prefix=${prefix}
+libdir=/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/lib
+includedir=${prefix}/include
+
+Name: Jansson
+Description: Library for encoding, decoding and manipulating JSON data
+Version: 2.14
+Libs: -L${libdir} -ljansson
+Cflags: -I${includedir}

@@ -1,0 +1,12 @@
+prefix=/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/unrealircd-6.1.10/extras/geoip-classic
+exec_prefix=/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/unrealircd-6.1.10/extras/geoip-classic
+libdir=/home/lcasado/Documents/coding/c/42/cc/circle6/ft_irc/server/lib
+includedir=${prefix}/include
+datadir=${prefix}/share
+
+Name: geoip
+Description: A non-DNS IP-to-country resolver library.
+Version: 1.6.12
+Libs: -L${libdir} -lGeoIP
+Cflags: -I${includedir}/
+databasedir=${datadir}/GeoIP
