@@ -1,5 +1,5 @@
 #include "UserName.class.hpp"
-#include "Logger.class.hpp"
+
 
 // Constructor privado para asegurar la creación controlada
 //UserName::UserName(const std::string& name) : _user(name) {
@@ -28,23 +28,23 @@ UserName& UserName::operator=(const UserName& other) {
 
 UserName::UserName(const std::string& name){
     if (isReserved(name)) {
-        throw UserNameException("Name is reserved.");
+        throw UserNameException(("UserName >"+ name + "< is reserved.").c_str());
     }
     if (!isValidLength(name)) {
-        throw UserNameException("Invalid length: must be 1-8 characters.");
+        throw UserNameException(("UserName >" + name + "< with invalid length: must be 1-8 characters.").c_str());
     }
     if (!hasValidCharacters(name)) {
-        throw UserNameException("Invalid characters.");
+        throw UserNameException(("Invalid characters in UserName >" + name +"<.").c_str());
     }
     if (!startsWithLetter(name)) {
-        throw UserNameException("Name must start with a letter.");
+        throw UserNameException(("UserName >"+ name +"< must start with a letter.").c_str());
     }
     this->_user = name ;
     Logger::getInstance().log("UserName::UserName " + _user + " created.");
 }
 
 // Getter para obtener el nombre
-std::string UserName::get() const {
+const std::string & UserName::get() const {
     return _user;
 }
 
@@ -60,22 +60,24 @@ bool UserName::isReserved(const std::string& name) {
 }
 
 bool UserName::isValidLength(const std::string& name) {
-    return name.length() > 0 && name.length() <= 8;
+    return name.length() > 0 && name.length() <= 12;
 }
-
+/*
+  user       =  1*( %x01-09 / %x0B-0C / %x0E-1F / %x21-3F / %x41-FF )
+                  ; any octet except NUL, CR, LF, " " and "@"*/
 bool UserName::hasValidCharacters(const std::string& name) {
     for (size_t i = 0; i < name.length(); ++i) {
         char c = name[i];
-        if (!((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-' || c == '.' || c == '_')) {
+        if  (c == 0x00 || c == 0x0A || c == 0x0D || c == ' ' || c == '@') {
             return false;
         }
     }
     return true;
 }
 
-bool UserName::startsWithLetter(const std::string& name) {
-    if (name.empty()) {
+bool UserName::startsWithLetter(const std::string& n) {
+    if (n.empty()) {
         return false;
     }
-    return name[0] >= 'a' && name[0] <= 'z';
+    return ( (n[0] >= 'a' && n[0] <= 'z') || (n[0] >= 'A' && n[0] <= 'Z' ) );
 }

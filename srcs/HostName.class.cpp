@@ -1,8 +1,5 @@
 #include "HostName.class.hpp"
-#include "Logger.class.hpp"
-#include <cctype>
-#include <algorithm>
-#include <sstream>
+
 
 // Private Helper Functions
 bool HostName::isShortname(const std::string& s) const {
@@ -122,7 +119,7 @@ HostName::HostName(const std::string& s) {
 }
 
 // Accessor Method
-std::string HostName::get() const {
+const std::string & HostName::get() const {
     return _host;
 }
 

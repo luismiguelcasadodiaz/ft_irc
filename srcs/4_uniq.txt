@@ -1,6 +1,0 @@
-<class><name><type><active type>
-<command><count><byte count><remote count>
-<mask><server><hopcount><server info>
-OK 2 <nick><user><host><real name>
-<servername><version><available user modes><available channel modes>
-<version><debuglevel><server><comments>

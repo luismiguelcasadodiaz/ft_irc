@@ -1,127 +1,114 @@
 # **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: luicasad <luicasad@student.42barcel>       +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/30 13:07:33 by luicasad          #+#    #+#              #
-#    Updated: 2025/08/27 18:06:24 by luicasad         ###   ########.fr        #
-#                                                                              #
+#                                  FT_IRC                                      #
 # **************************************************************************** #
 
-# ============================================================================ #
-#                                 COLORS                                       #
-# ============================================================================ #
-DEF_COLOR		=	\033[0;39m
-GRAY			=	\033[0;90m
-RED				=	\033[0;91m
-GREEN			=	\033[0;92m
-YELLOW			=	\033[0;93m
-BLUE			=	\033[0;94m
-MAGENTA			=	\033[0;95m
-CYAN			=	\033[0;96m
-WHITE			=	\033[0;97m
-BLACK			=	\033[0;99m
-ORANGE			=	\033[38;5;209m
-BROWN			=	\033[38;2;184;143;29m
-DARK_GRAY		=	\033[38;5;234m
-MID_GRAY		=	\033[38;5;245m
-DARK_GREEN		=	\033[38;2;75;179;82m
-DARK_YELLOW		=	\033[38;5;143m
-# ============================================================================ #
-#                                 TARGETS                                      #
-# ============================================================================ #
+NAME    = ircserv
+CXX     = c++
+CXXFLAGS= -g -Wall -Wextra -Werror -std=c++98
 
-TARGET			= main
-SRCDIR			= ./srcs/
-OBJDIR 			= ./obj/
+SRCS_DIR = ./srcs/
+OBJS_DIR = ./objs/
 
-REQUIRED_DIRS	= $(OBJDIR)
-# ============================================================================ #
-#                               COMPILER SETUP                                 #
-# ============================================================================ #
-CC 				= c++ -std=c++98
-WRNFL			= -Wall -Wextra -Werror -Wshadow -fsanitize=address
-DBGFL			= -g3  -pg
-CFLGS			= $(DBGFL) $(WRNFL) -c 
-#HEADS			= -I$(INCDIR)
-LFLGS 			= -fsanitize=address
-
+# Directorio de los fuentes
 HEADERS		=	NickName.class.hpp \
 				HostName.class.hpp \
+				UserName.class.hpp \
+				ChanName.class.hpp \
+				Parser.class.hpp \
+				Logger.class.hpp \
 				IrcNumerics.hpp \
 				IrcMM.class.hpp \
-
-SRCS_TARGET	= 	NickName.class.cpp \
-				HostName.class.cpp \
-				IrcMM.class.cpp \
-				main.cpp \
+				Client.hpp \
+				Channel.class.hpp \
 
 
-FILE_TARGET = $(addprefix $(SRCDIR), $(SRCS_TARGET))
-OBJS_TARGET = $(addprefix $(OBJDIR), $(SRCS_TARGET:.cpp=.o))
-DEPE_TARGET = $(addprefix $(OBJDIR), $(SRCS_TARGET:.cpp=.d))
+# Lista explícita de fuentes
+SRCS = ChanName.class.cpp \
+	   HostName.class.cpp \
+	   NickName.class.cpp \
+	   UserName.class.cpp \
+	   Parser.class.cpp \
+	   Logger.class.cpp \
+	   IrcMM.class.cpp \
+	   main.cpp \
+       Server.cpp \
+       FileDescriptor.cpp \
+	   Client.cpp \
+	   cmd_admin.cpp \
+	   cmd_away.cpp \
+	   cmd_cap.cpp \
+	   cmd_connect.cpp \
+	   cmd_die.cpp \
+	   cmd_error.cpp \
+	   cmd_info.cpp \
+	   cmd_invite.cpp \
+	   cmd_join.cpp \
+	   cmd_kick.cpp \
+	   cmd_kill.cpp \
+	   cmd_links.cpp \
+	   cmd_list.cpp \
+	   cmd_lusers.cpp \
+	   cmd_mode.cpp \
+	   cmd_mode_user.cpp \
+	   cmd_mode_channel.cpp \
+	   cmd_motd.cpp \
+	   cmd_names.cpp \
+	   cmd_nick.cpp \
+	   cmd_notice.cpp \
+	   cmd_oper.cpp \
+	   cmd_part.cpp \
+	   cmd_pass.cpp \
+	   cmd_ping.cpp \
+	   cmd_pong.cpp \
+	   cmd_privmsg.cpp \
+	   cmd_privmsg_user.cpp \
+	   cmd_privmsg_channel.cpp \
+	   cmd_quit.cpp \
+	   cmd_rehash.cpp \
+	   cmd_restart.cpp \
+	   cmd_servlist.cpp \
+	   cmd_squery.cpp \
+	   cmd_squirt.cpp \
+	   cmd_stats.cpp \
+	   cmd_time.cpp \
+	   cmd_topic.cpp \
+	   cmd_trace.cpp \
+	   cmd_user.cpp \
+	   cmd_version.cpp \
+	   cmd_who.cpp \
+	   cmd_whois.cpp \
+	   cmd_whowas.cpp \
+	   Channel.class.cpp 
 
-$(info tests  $(FILE_TARGET))
-$(info object  $(OBJS_TARGET))
-$(info patha $(DEPE_TARGET))
 
-# ============================================================================ #
-#                                 RULES                                        #
-# ============================================================================ #
-all: makedirs $(TARGET)
--include $(DEPE_TARGET)
+# Objetos correspondientes
+OBJS = $(addprefix $(OBJS_DIR), $(SRCS:.cpp=.o))
 
-# .......................... directories creation ............................ #
-makedirs:
-	$(shell for d in $(REQUIRED_DIRS); \
- 				do \
- 					[ -d $$d ] || mkdir -p $$d; \
- 				done)
- 
-# ....................... dependencies construction .......................... #
-#for each c file create its dependency file 
-#READ GNU make  manual 4.14 Generating Prerequisites Automatically.
-#READ GNU gcc manuel 3.13 Options controlling the preprocessor.
-%.d: %.cpp
-	@set -e; rm -f $@; \
-	$(CC) $(HEADS) -MM $< > $@.$$$$ ; \
-	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-    rm -f $@.$$$$
+# Regla principal
+all: $(NAME)
 
-# .......................... targets construction ............................ #
-$(TARGET): Makefile  $(OBJS_TARGET) $(HEADERS)
-	@echo "$(GREEN)========== GATHERING $(TARGET) OBJECTS =============$(DEF_COLOR)"
-	$(CC) $(LFLGS) $(OBJS_TARGET) -o $@ $(LLIBS) $(FRAMEWORKS)
+# Create objects directory if it doesn't exist
+$(OBJS_DIR):
+	mkdir -p $(OBJS_DIR)
 
-# .......................... objects construction ............................ #
-$(OBJDIR)%.o: $(SRCDIR)%.cpp
-	@echo "$(GREEN)========== COMPILING $(TARGET) FILES ===============$(DEF_COLOR)"
-	$(CC) $(CFLGS) $< -o $@   
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-$(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+# Regla genérica para compilar objetos
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.cpp | $(OBJS_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-
+# Limpiar objetos
 clean:
-	rm -f $(TARGET)
-	rm -rf $(OBJDIR)
-	
-fclean: clean
-	rm -f $(TARGET)
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJS_DIR)
 
+# Limpiar todo
+fclean: clean
+	rm -f $(NAME)
+	rm -rf ~/.config/hexchat/logs/*
+	rm -rf ~/.config/hexchat/scrollback/*
+
+# Recompilar desde cero
 re: fclean all
 
-run:
-	./$(TARGET)
-
-profile:
-	valgrind --tool=callgrind ./$(TARGET)
-	callgrind_annotate
-
-leaks:
-	valgrind -s --error-limit=no --tool=memcheck --leak-check=full --show-leak-kinds=all ./$(TARGET)
-
-.PHONY: all bonus test clean fclean re rebonus norma profile leaks
+.PHONY: all clean fclean re

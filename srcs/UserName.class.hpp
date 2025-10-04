@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include "Logger.class.hpp"
 
 // Clase de excepción personalizada
 class UserNameException : public std::exception {
@@ -30,7 +31,7 @@ public:
 
     //Setters and getters
     void set( const std::string& user ) ;
-    std::string get() const;
+    const std::string  & get() const;
 
     // Overloaded comparison operators
     bool operator==(const UserName& other) const;

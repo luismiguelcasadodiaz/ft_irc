@@ -1,9 +1,10 @@
 #ifndef CHANNELNAME_CLASS_HPP
 # define CHANNELNAME_CLASS_HPP
 
-# include <iostream>
-# include <string>
-# include <stdexcept>
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <algorithm>
 
 class ChanName {
 
@@ -40,6 +41,7 @@ public:
     ChanName &operator=(ChanName const &rhs);
 
     const std::string& get() const;
+    const char & getprefix() const;
 
 private:
     std::string _channame;

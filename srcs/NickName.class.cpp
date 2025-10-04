@@ -1,8 +1,5 @@
 #include "NickName.class.hpp"
-#include "Logger.class.hpp"
-#include <cctype>
-#include <algorithm>
-#include <iostream>
+
 
 // Private helper functions
 bool NickName::isValidCharacter(char c, bool isFirstChar) const {
@@ -14,15 +11,17 @@ bool NickName::isValidCharacter(char c, bool isFirstChar) const {
 }
 
 void NickName::validate(const std::string& name) const {
-    if (name.length() != 9) {
-        throw std::invalid_argument("NickName debe tener exactamente 9 caracteres.");
+    if (name.length() > 12) {
+        int l = name.length();
+        std::cout << "[DEBUG]: el cliente tiene " << l << " caracteres " << name << "\n"; 
+        throw std::invalid_argument("NickName debe tener 12 o menos caracteres.");
     }
     if (!isValidCharacter(name[0], true)) {
-        throw std::invalid_argument("El primer caracter debe ser una letra o un caracter especial.");
+        throw std::invalid_argument("Nickname's initial must be a letter or special character.");
     }
     for (size_t i = 1; i < name.length(); ++i) {
         if (!isValidCharacter(name[i], false)) {
-            throw std::invalid_argument("Los caracteres siguientes deben ser una letra, digito, caracter especial o guion.");
+            throw std::invalid_argument("After the first character, subsequent characters must be a letter, digit, special character, or dash.");
         }
     }
 }
@@ -81,7 +80,7 @@ NickName::NickName(const std::string& name) {
 }
 
 // Public methods
-std::string NickName::get() const {
+const std::string & NickName::get() const {
     return _nick;
 }
 

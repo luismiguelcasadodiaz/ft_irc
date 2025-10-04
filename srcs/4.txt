@@ -1,7 +1,0 @@
-<mask><server><hopcount><server info>
-<servername><version><available user modes><available channel modes>
-<command><count><byte count><remote count>
-<class><name><type><active type>
-<version><debuglevel><server><comments>
-<nick><user><host><real name>
-<nick><user><host><real name>

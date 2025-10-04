@@ -1,5 +1,5 @@
 #include "ChanName.class.hpp"
-#include <algorithm>
+
 
 // Convierto a minúsculas
 std::string toLower(const std::string& str) {
@@ -95,4 +95,8 @@ ChanName::~ChanName() {}
 // Getter
 const std::string& ChanName::get() const {
     return _channame;
+}
+
+const char & ChanName::getprefix() const {
+    return _channame[0];
 }

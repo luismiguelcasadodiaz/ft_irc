@@ -1,6 +1,10 @@
 #ifndef NICKNAME_CLASS_HPP
 # define NICKNAME_CLASS_HPP
 
+#include "Logger.class.hpp"
+#include <cctype>
+#include <algorithm>
+#include <iostream>
 #include <string>
 #include <stdexcept>
 
@@ -29,7 +33,7 @@ public:
     explicit NickName(const std::string& name);
 
     // Get the raw nickname string
-    std::string get() const;
+    const std::string & get() const;
 
     // Overloaded comparison operators
     bool operator==(const NickName& other) const;

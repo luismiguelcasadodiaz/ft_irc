@@ -1,8 +1,0 @@
-<channel><mode><mode params>
-<channel><nick><nick>
-<channel><# visible><topic>
-<integer><integer><integer>
-<nick><server><server info>
-OK 2 <nick><user><host>
-<target><error code><abort message>
-<username><ttyline><hostname>

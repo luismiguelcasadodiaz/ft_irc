@@ -5,6 +5,10 @@
 
 #include <string>
 #include <stdexcept>
+#include <cctype>
+#include <algorithm>
+#include <sstream>
+#include "Logger.class.hpp"
 
 // Clase de excepción personalizada
 class HostNameException : public std::exception {
@@ -32,7 +36,7 @@ public:
     explicit HostName(const std::string& s);
 
     // Accessor Method
-    std::string get() const;
+    const std::string & get() const;
 
     // Comparison Operators
     bool operator==(const HostName& other) const;

@@ -1,5 +1,5 @@
 #include "Logger.class.hpp"
-#include <iostream>
+
 
 // Inicialización de la única instancia
 Logger* Logger::_instance = 0;
