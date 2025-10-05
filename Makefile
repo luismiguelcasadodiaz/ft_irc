@@ -4,7 +4,7 @@
 
 NAME    = ircserv
 CXX     = c++
-CXXFLAGS= -g -Wall -Wextra -Werror -std=c++98
+CXXFLAGS=  -Wall -Wextra -Werror -std=c++98
 
 SRCS_DIR = ./srcs/
 OBJS_DIR = ./objs/
@@ -101,12 +101,12 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.cpp | $(OBJS_DIR)
 # Limpiar objetos
 clean:
 	rm -rf $(OBJS_DIR)
+	rm -rf ~/.config/hexchat/logs/*
+	rm -rf ~/.config/hexchat/scrollback/*
 
 # Limpiar todo
 fclean: clean
 	rm -f $(NAME)
-	rm -rf ~/.config/hexchat/logs/*
-	rm -rf ~/.config/hexchat/scrollback/*
 
 # Recompilar desde cero
 re: fclean all

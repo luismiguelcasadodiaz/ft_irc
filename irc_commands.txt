@@ -1,0 +1,28 @@
+pass 123456
+nick alfonso
+user alfonso 0 * : Alfonso Casado
+join #aaa
+join #bbb
+join #ccc
+topic #aaa : los asuntos de las aes
+topic #bbb : los asuntos de las bes
+topic #ccc : los asuntos de las ces
+mode #aaa +itlk 14 pepe
+mode #aaa
+mode #aaa -k
+mode #aaa
+mode #aaa +k paco
+mode #aaa
+mode #aaa -k +l 15
+mode #aaa
+invite lcasado1 #aaa
+invite lcasado_ #aaa
+invite lcasado1 #bbb
+invite lcasado_ #bbb
+invite lcasado1 #ccc
+invite lcasado_ #ccc
+invite lcasado__ #ccc
+kick #ccc lcasado1,lcasado__ : Palabras mal sonantes
+kick #aaa,#bbb lcasado1,lcasado__ : Palabras mal sonantes
+kick #aaa,#bbb lcasado1,lcasado_,lcasado__ : Palabras mal sonantes
+

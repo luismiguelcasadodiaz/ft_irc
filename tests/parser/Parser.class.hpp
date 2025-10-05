@@ -1,0 +1,71 @@
+#ifndef PARSER_CLASS_H
+#define PARSER_CLASSS_H
+
+#include <string.h>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream>
+
+class Parser
+{
+    private:
+    std::vector<std::string> _tokens ;
+    std::string _txt_line ;
+    std::string _command ; // to speed backbone funtions
+    size_t error:
+
+    void _split_tokens();
+
+    public:
+        parser();
+        ~parser();
+        parser(std::string text_line);
+        parser(Parser const & other);
+        Parser & operator=(Parser const & other);
+
+        size_t get_num_tokens() const;
+        void _backbone() ;
+        void _cmd_pass() ;
+        void _cmd_nick() ;
+        void _cmd_user() ;
+        void _cmd_oper() ;
+        void _cmd_quit() ;
+        void _cmd_pong() ;
+        void _cmd_ping() ;
+        void _cmd_join() ;
+        void _cmd_part() ;
+        void _cmd_mode() ;
+        void _cmd_topic() ;
+        void _cmd_names() ;
+        void _cmd_list() ;
+        void _cmd_invite() ;
+        void _cmd_kick() ;
+        void _cmd_privmsg() ;
+        void _cmd_notice() ;
+        void _cmd_away() ;
+        void _cmd_who() ;
+        void _cmd_whois() ;
+        void _cmd_whowas() ;
+        void _cmd_lusers() ;
+        void _cmd_version() ;
+        void _cmd_stats() ;
+        void _cmd_links() ;
+        void _cmd_time() ;
+        void _cmd_trace() ;
+        void _cmd_admin() ;
+        void _cmd_info() ;
+        void _cmd_servlist() ;
+        void _cmd_squery() ;
+        void _cmd_motd() ;
+        void _cmd_kill() ;
+        void _cmd_error() ;
+        void _cmd_rehash() ;
+        void _cmd_restart() ;
+        void _cmd_squirt() ;
+        void _cmd_connect() ;
+        void _cmd_die() ;
+
+};
+
+#endif

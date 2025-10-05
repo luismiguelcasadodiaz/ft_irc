@@ -1,0 +1,53 @@
+#!/usr/bin/bash
+
+read -r -d '' CODE << EOM
+void Parser::_cmd_nick()
+{
+    std::cout << "NICK detectado con estos parametros" << std::endl;
+    for (size_t i = 1; i < this->_tokens.size(); ++i) {
+        std::cout << this->_tokens[i] << std::endl;
+    }
+    return 0;
+}
+EOM
+
+
+void _cmd_pass() ;
+void _cmd_nick() ;
+void _cmd_user() ;
+void _cmd_oper() ;
+void _cmd_quit() ;
+void _cmd_pong() ;
+void _cmd_ping() ;
+void _cmd_join() ;
+void _cmd_part() ;
+void _cmd_mode() ;
+void _cmd_topic() ;
+void _cmd_names() ;
+void _cmd_list() ;
+void _cmd_invite() ;
+void _cmd_kick() ;
+void _cmd_privmsg() ;
+void _cmd_notice() ;
+void _cmd_away() ;
+void _cmd_who() ;
+void _cmd_whois() ;
+void _cmd_whowas() ;
+void _cmd_lusers() ;
+void _cmd_version() ;
+void _cmd_stats() ;
+void _cmd_links() ;
+void _cmd_time() ;
+void _cmd_trace() ;
+void _cmd_admin() ;
+void _cmd_info() ;
+void _cmd_servlist() ;
+void _cmd_squery() ;
+void _cmd_motd() ;
+void _cmd_kill() ;
+void _cmd_error() ;
+void _cmd_rehash() ;
+void _cmd_restart() ;
+void _cmd_squirt() ;
+void _cmd_connect() ;
+void _cmd_die() ;
